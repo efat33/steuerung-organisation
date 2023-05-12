@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -34,11 +36,14 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
+     * Check if the current user is Admin
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function isAdmin()
+    {
+        if (auth()->user()->user_type != UserRole::ADMIN) {
+            return false;
+        }
+
+        return true;
+    }
 }

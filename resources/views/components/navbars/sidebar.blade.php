@@ -15,15 +15,6 @@
     <div class="collapse navbar-collapse  w-auto h-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'user-management' ? ' active bg-gradient-primary' : '' }} "
-                    href="#">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1rem; padding-left: 3px;" class="fas fa-lg fa-list-ul text-center"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">User Management</span>
-                </a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'dashboard' ? ' active bg-gradient-primary' : '' }} "
                     href="{{ route('dashboard') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -32,6 +23,17 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
+            @if (auth()->user()->isAdmin())
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'user-management' ? ' active bg-gradient-primary' : '' }} "
+                    href="{{ route('users.index') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i style="font-size: 1rem; padding-left: 3px;" class="fas fa-lg fa-list-ul text-center"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">User Management</span>
+                </a>
+            </li>
+            @endif
             <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'tables' ? ' active bg-gradient-primary' : '' }} "
                     href="#">
