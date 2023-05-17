@@ -1,3 +1,7 @@
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */
+
+select.form-select:focus {
+    border-color: #d2d6da;
+}
