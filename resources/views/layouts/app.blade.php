@@ -29,6 +29,8 @@
     @vite("resources/css/pages/$pageStyle.css")
     @endif
 
+    @stack('css')
+
     <script src="{{ asset('assets') }}/js/jquery.min.js"></script>
 
 </head>

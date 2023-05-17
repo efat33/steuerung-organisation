@@ -5,3 +5,6 @@
 select.form-select:focus {
     border-color: #d2d6da;
 }
+.form-select {
+	background-position: right 5px center;
+}

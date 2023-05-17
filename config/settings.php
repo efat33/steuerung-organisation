@@ -15,7 +15,7 @@ return [
     */
 
     'pagination' => [
-        'per_page' => 3,
+        'per_page' => 30,
     ],
 
 ];

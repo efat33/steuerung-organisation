@@ -47,7 +47,8 @@
                                 <x-inputs.label class="fw-bold" value="Erhalten über" />
                             </div>
                             <div class="col-md-9 col-sm-12">
-                                <p class="text-secondary mb-0">{{ App\Enums\GetOver::getLabel($technicalOffer->get_over) }} </p>
+                                <p class="text-secondary mb-0">{{ $technicalOffer->get_over != '' ?
+                                    App\Enums\GetOver::getLabel($technicalOffer->get_over) : '' }} </p>
                             </div>
                         </div>
 
@@ -65,7 +66,8 @@
                                 <x-inputs.label class="fw-bold" value="Erhalten Am" />
                             </div>
                             <div class="col-md-9 col-sm-12">
-                                <p class="text-secondary mb-0">{{ date('d-m-Y', strtotime($technicalOffer->received_date)) }} </p>
+                                <p class="text-secondary mb-0">{{ $technicalOffer->received_date != '' ? date('d-m-Y',
+                                    strtotime($technicalOffer->received_date)) : '' }} </p>
                             </div>
                         </div>
 
@@ -92,7 +94,9 @@
                                 <x-inputs.label class="fw-bold" value="Status" />
                             </div>
                             <div class="col-md-9 col-sm-12">
-                                <p class="text-secondary mb-0">{{ App\Enums\Status::getLabel($technicalOffer->status) }} </p>
+                                <p class="text-secondary mb-0">{{ $technicalOffer->status != '' ?
+                                    App\Enums\Status::getLabel($technicalOffer->status) : '' }}
+                                </p>
                             </div>
                         </div>
 
@@ -101,7 +105,9 @@
                                 <x-inputs.label class="fw-bold" value="Angebotsart" />
                             </div>
                             <div class="col-md-9 col-sm-12">
-                                <p class="text-secondary mb-0">{{ App\Enums\OfferType::getLabel($technicalOffer->offer_type) }} </p>
+                                <p class="text-secondary mb-0">{{
+                                    $technicalOffer->offer_type != '' ?
+                                    App\Enums\OfferType::getLabel($technicalOffer->offer_type) : '' }} </p>
                             </div>
                         </div>
 
@@ -128,7 +134,8 @@
                                 <x-inputs.label class="fw-bold" value="Angebotsdatum" />
                             </div>
                             <div class="col-md-9 col-sm-12">
-                                <p class="text-secondary mb-0">{{ date('d-m-Y', strtotime($technicalOffer->offer_date)) }} </p>
+                                <p class="text-secondary mb-0">{{ $technicalOffer->offer_date != '' ? date('d-m-Y',
+                                    strtotime($technicalOffer->offer_date)) : '' }} </p>
                             </div>
                         </div>
 
@@ -146,7 +153,8 @@
                                 <x-inputs.label class="fw-bold" value="Angebotsnachfassung" />
                             </div>
                             <div class="col-md-9 col-sm-12">
-                                <p class="text-secondary mb-0">{{ date('d-m-Y', strtotime($technicalOffer->offer_follow_up)) }} </p>
+                                <p class="text-secondary mb-0">{{ $technicalOffer->offer_follow_up != '' ? date('d-m-Y',
+                                    strtotime($technicalOffer->offer_follow_up)) : '' }} </p>
                             </div>
                         </div>
 
@@ -155,7 +163,10 @@
                                 <x-inputs.label class="fw-bold" value="Resultat Nach Dem Gespräch" />
                             </div>
                             <div class="col-md-9 col-sm-12">
-                                <p class="text-secondary mb-0">{{ App\Enums\ConversationStatus::getLabel($technicalOffer->conversation_status) }} </p>
+                                <p class="text-secondary mb-0">{{
+                                    $technicalOffer->conversation_status != '' ?
+                                    App\Enums\ConversationStatus::getLabel($technicalOffer->conversation_status) : '' }}
+                                </p>
                             </div>
                         </div>
 
@@ -173,7 +184,8 @@
                                 <x-inputs.label class="fw-bold" value="Auftragsdatum" />
                             </div>
                             <div class="col-md-9 col-sm-12">
-                                <p class="text-secondary mb-0">{{ date('d-m-Y', strtotime($technicalOffer->order_date)) }} </p>
+                                <p class="text-secondary mb-0">{{ $technicalOffer->order_date != '' ? date('d-m-Y',
+                                    strtotime($technicalOffer->order_date)) : '' }} </p>
                             </div>
                         </div>
 
@@ -191,7 +203,8 @@
                                 <x-inputs.label class="fw-bold" value="Durchführungsdatum" />
                             </div>
                             <div class="col-md-9 col-sm-12">
-                                <p class="text-secondary mb-0">{{ date('d-m-Y', strtotime($technicalOffer->execution_date)) }}</p>
+                                <p class="text-secondary mb-0">{{ $technicalOffer->execution_date != '' ? date('d-m-Y',
+                                    strtotime($technicalOffer->execution_date)) : '' }}</p>
                             </div>
                         </div>
 
@@ -200,7 +213,8 @@
                                 <x-inputs.label class="fw-bold" value="Freigabe Zur Verrechnung" />
                             </div>
                             <div class="col-md-9 col-sm-12">
-                                <p class="text-secondary mb-0">{{ date('d-m-Y', strtotime($technicalOffer->approval_date)) }}</p>
+                                <p class="text-secondary mb-0">{{ $technicalOffer->approval_date != '' ? date('d-m-Y',
+                                    strtotime($technicalOffer->approval_date)) : '' }}</p>
                             </div>
                         </div>
 
@@ -221,7 +235,7 @@
                                 <p class="text-secondary mb-0">{{ $technicalOffer->notes }} </p>
                             </div>
                         </div>
-                            
+
                     </div>
                 </div>
             </div>
