@@ -16,13 +16,15 @@ class TechniclOfferRequest extends FormRequest
     {
         return [
             // 'get_over' => ['string', 'max:50'],
-            'cs_order_number' => ['digits_between:0,20'],
+            'get_over' => ['required'],
+            'cs_order_number' => ['numeric', 'max:9223372036854775807'],
+            'received_date' => ['required'],
             'received_from' => ['nullable', 'string', 'max:50'],
             'customer_number' => ['nullable', 'string', 'max:10'],
             'technical_place' => ['nullable', 'string', 'max:10'],
-            'technical_place_address' => ['nullable', 'string', 'max:100'],
+            'technical_place_address' => ['required', 'string', 'max:100'],
             'technical_postcode' => ['nullable', 'string', 'max:4'],
-            // 'status' => ['nullable', 'string', 'max:50'],
+            'status' => ['required', 'string', 'max:50'],
             // 'offer_type' => ['nullable', 'string', 'max:10'],
             'ktb_number' => ['digits_between:0,10'],
             'quote_number' => ['digits_between:0,10'],
@@ -46,9 +48,10 @@ class TechniclOfferRequest extends FormRequest
     public function messages()
     {
         return [
-            'offer_amount' => 'The offer amount take decimal and maximum 13 degits',
-            'order_amount' => 'The order amount take decimal and maximum 13 degits',
-            'invice_amount' => 'The invice amount take decimal and maximum 13 degits',
+            'offer_amount' => 'This filed take decimal and 13 degits maximum',
+            'order_amount' => 'This filed take decimal and 13 degits maximum',
+            'invice_amount' => 'This filed take decimal and 13 degits maximum',
+            'cs_order_number.max' => 'This filed exceeds the limit',
         ];
     }
 }
