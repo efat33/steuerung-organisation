@@ -20,15 +20,13 @@
                             @method('PUT')
 
                             <div class="row">
-                                <input hidden name="id" value="{{$technicalOffer->id}}" />
 
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="get_over" value="Erhalten über" />
                                     <x-select-box.select-box name="get_over" title="Select Option">
                                         <option value="" selected>Select Option</option>
                                         @foreach (App\Enums\GetOver::cases() as $item)
-                                        <option value="{{ $item }}" {{ $technicalOffer->get_over == $item ? "selected" :
-                                            "" }} >{{ App\Enums\GetOver::getLabel($item ) }}</option>
+                                        <option value="{{ $item }}" {{ old('get_over') == $item || $technicalOffer->get_over == $item ? "selected" : "" }} >{{ App\Enums\GetOver::getLabel($item ) }}</option>
                                         @endforeach
                                     </x-select-box.select-box>
                                     <x-inputs.error :messages="$errors->get('get_over')" />
@@ -37,7 +35,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="cs_order_number" value="CS-Auftragsnummer" />
                                     <x-inputs.text id="cs_order_number" type="text" name="cs_order_number"
-                                        value="{{ $technicalOffer->cs_order_number }}" />
+                                        value="{{ old('cs_order_number', $technicalOffer->cs_order_number) }}" />
                                     <x-inputs.error :messages="$errors->get('cs_order_number')" />
                                 </div>
 
@@ -48,7 +46,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="received_date" value="Erhalten Am" />
                                     <x-inputs.text id="received_date" type="text" name="received_date"
-                                        value="{{ $technicalOffer->received_date != '' ? date('d-m-Y', strtotime($technicalOffer->received_date)) : '' }}"
+                                        value="{{ old('received_date', $technicalOffer->received_date != '' ? date('d-m-Y', strtotime($technicalOffer->received_date)) : '') }}"
                                         placeholder="Wähle einen Dake" />
                                     <x-inputs.error :messages="$errors->get('received_date')" />
                                 </div>
@@ -56,7 +54,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="received_from" value="Erhalten Von" />
                                     <x-inputs.text id="received_from" type="text" name="received_from"
-                                        value="{{ $technicalOffer->received_from }}" />
+                                        value="{{ old('received_from', $technicalOffer->received_from) }}" />
                                     <x-inputs.error :messages="$errors->get('received_from')" />
                                 </div>
 
@@ -67,14 +65,14 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="customer_number" value="Debitor/Kundennummer" />
                                     <x-inputs.text id="customer_number" type="text" name="customer_number"
-                                        value="{{ $technicalOffer->customer_number }}" />
+                                        value="{{ old('customer_number', $technicalOffer->customer_number) }}" />
                                     <x-inputs.error :messages="$errors->get('customer_number')" />
                                 </div>
 
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="technical_place" value="Technischer Platz" />
                                     <x-inputs.text id="technical_place" type="text" name="technical_place"
-                                        value="{{ $technicalOffer->technical_place }}" />
+                                        value="{{ old('technical_place', $technicalOffer->technical_place) }}" />
                                     <x-inputs.error :messages="$errors->get('technical_place')" />
                                 </div>
 
@@ -88,14 +86,14 @@
                                     <x-inputs.label for="technical_place_address" value="Technische Ortsadresse" />
                                     <x-inputs.textarea id="technical_place_address" type="text"
                                         name="technical_place_address"
-                                        value="{{ $technicalOffer->technical_place_address }}" />
+                                        value="{{ old('technical_place_address', $technicalOffer->technical_place_address) }}" />
                                     <x-inputs.error :messages="$errors->get('technical_place_address')" />
                                 </div>
 
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="technical_postcode" value="Postleitzahl" />
                                     <x-inputs.text id="technical_postcode" type="text" name="technical_postcode"
-                                        value="{{ $technicalOffer->technical_postcode }}" />
+                                        value="{{ old('technical_postcode', $technicalOffer->technical_postcode) }}" />
                                     <x-inputs.error :messages="$errors->get('technical_postcode')" />
                                 </div>
 
@@ -108,7 +106,7 @@
                                     <x-select-box.select-box name="status" title="Select Option">
                                         <option value="" selected>Select Option</option>
                                         @foreach (App\Enums\Status::cases() as $item)
-                                        <option value="{{ $item }}" {{ $technicalOffer->status == $item ? "selected" :
+                                        <option value="{{ $item }}" {{ old('status') == $item || $technicalOffer->status == $item ? "selected" :
                                             "" }} >{{ App\Enums\Status::getLabel($item ) }}</option>
                                         @endforeach
                                     </x-select-box.select-box>
@@ -120,7 +118,7 @@
                                     <x-select-box.select-box name="offer_type" title="Select Option">
                                         <option value="" selected>Select Option</option>
                                         @foreach (App\Enums\OfferType::cases() as $item)
-                                        <option value="{{ $item }}" {{ $technicalOffer->offer_type == $item ? "selected"
+                                        <option value="{{ $item }}" {{ old('offer_type') == $item || $technicalOffer->offer_type == $item ? "selected"
                                             : "" }} >{{ App\Enums\OfferType::getLabel($item ) }}</option>
                                         @endforeach
                                     </x-select-box.select-box>
@@ -134,14 +132,14 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="ktb_number" value="KTB-Nummer" />
                                     <x-inputs.text id="ktb_number" type="text" name="ktb_number"
-                                        value="{{ $technicalOffer->ktb_number }}" />
+                                        value="{{ old('ktb_number', $technicalOffer->ktb_number) }}" />
                                     <x-inputs.error :messages="$errors->get('ktb_number')" />
                                 </div>
 
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="quote_number" value="Angebotsnummer" />
                                     <x-inputs.text id="quote_number" type="text" name="quote_number"
-                                        value="{{ $technicalOffer->quote_number }}" />
+                                        value="{{ old('quote_number', $technicalOffer->quote_number) }}" />
                                     <x-inputs.error :messages="$errors->get('quote_number')" />
                                 </div>
 
@@ -152,7 +150,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="offer_date" value="Angebotsdatum" />
                                     <x-inputs.text id="offer_date" type="text" name="offer_date"
-                                        value="{{ $technicalOffer->offer_date != '' ? date('d-m-Y', strtotime($technicalOffer->offer_date)) : '' }}"
+                                        value="{{ old('offer_date', $technicalOffer->offer_date != '' ? date('d-m-Y', strtotime($technicalOffer->offer_date)) : '') }}"
                                         placeholder="Wähle einen Dake" />
                                     <x-inputs.error :messages="$errors->get('offer_date')" />
                                 </div>
@@ -160,7 +158,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="offer_amount" value="Angebotssumme" />
                                     <x-inputs.text id="offer_amount" type="text" name="offer_amount"
-                                        value="{{ $technicalOffer->offer_amount }}" />
+                                        value="{{ old('offer_amount', $technicalOffer->offer_amount) }}" />
                                     <x-inputs.error :messages="$errors->get('offer_amount')" />
                                 </div>
 
@@ -171,7 +169,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="offer_follow_up" value="Angebotsnachfassung" />
                                     <x-inputs.text id="offer_follow_up" type="text" name="offer_follow_up"
-                                        value="{{ $technicalOffer->offer_follow_up != '' ? date('d-m-Y', strtotime($technicalOffer->offer_follow_up)) : '' }}"
+                                        value="{{ old('offer_follow_up', $technicalOffer->offer_follow_up != '' ? date('d-m-Y', strtotime($technicalOffer->offer_follow_up)) : '') }}"
                                         placeholder="Wähle einen Dake" />
                                     <x-inputs.error :messages="$errors->get('offer_follow_up')" />
                                 </div>
@@ -181,7 +179,7 @@
                                     <x-select-box.select-box name="conversation_status" title="Select Option">
                                         <option value="" selected>Select Option</option>
                                         @foreach (App\Enums\ConversationStatus::cases() as $item)
-                                        <option value="{{ $item }}" {{ $technicalOffer->conversation_status == $item ?
+                                        <option value="{{ $item }}" {{ old('conversation_status') == $item || $technicalOffer->conversation_status == $item ?
                                             "selected" : "" }} >{{ App\Enums\ConversationStatus::getLabel($item ) }}
                                         </option>
                                         @endforeach
@@ -196,14 +194,14 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="order_number" value="Auftragsnummer" />
                                     <x-inputs.text id="order_number" type="text" name="order_number"
-                                        value="{{ $technicalOffer->order_number }}" />
+                                        value="{{ old('order_number', $technicalOffer->order_number) }}" />
                                     <x-inputs.error :messages="$errors->get('order_number')" />
                                 </div>
 
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="order_date" value="Auftragsdatum" />
                                     <x-inputs.text id="order_date" type="text" name="order_date"
-                                        value="{{ $technicalOffer->order_date != '' ? date('d-m-Y', strtotime($technicalOffer->order_date)) : '' }}"
+                                        value="{{ old('order_date', $technicalOffer->order_date != '' ? date('d-m-Y', strtotime($technicalOffer->order_date)) : '') }}"
                                         placeholder="Wähle einen Dake" />
                                     <x-inputs.error :messages="$errors->get('order_date')" />
                                 </div>
@@ -215,14 +213,14 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="order_amount" value="Auftragssumme" />
                                     <x-inputs.text id="order_amount" type="text" name="order_amount"
-                                        value="{{ $technicalOffer->order_amount }}" />
+                                        value="{{ old('order_amount', $technicalOffer->order_amount) }}" />
                                     <x-inputs.error :messages="$errors->get('order_amount')" />
                                 </div>
 
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="execution_date" value="Durchführungsdatum" />
                                     <x-inputs.text id="execution_date" type="text" name="execution_date"
-                                        value="{{ $technicalOffer->execution_date != '' ? date('d-m-Y', strtotime($technicalOffer->execution_date)) : '' }}"
+                                        value="{{ old('execution_date', $technicalOffer->execution_date != '' ? date('d-m-Y', strtotime($technicalOffer->execution_date)) : '') }}"
                                         placeholder="Wähle einen Dake" />
                                     <x-inputs.error :messages="$errors->get('execution_date')" />
                                 </div>
@@ -234,7 +232,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="approval_date" value="Freigabe Zur Verrechnung" />
                                     <x-inputs.text id="approval_date" type="text" name="approval_date"
-                                        value="{{ $technicalOffer->approval_date != '' ? date('d-m-Y', strtotime($technicalOffer->approval_date)) : '' }}"
+                                        value="{{ old('approval_date', $technicalOffer->approval_date != '' ? date('d-m-Y', strtotime($technicalOffer->approval_date)) : '') }}"
                                         placeholder="Wähle einen Dake" />
                                     <x-inputs.error :messages="$errors->get('approval_date')" />
                                 </div>
@@ -242,7 +240,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="invice_amount" value="Fakturawert" />
                                     <x-inputs.text id="invice_amount" type="text" name="invice_amount"
-                                        value="{{ $technicalOffer->invice_amount }}" />
+                                        value="{{ old('invice_amount', $technicalOffer->invice_amount) }}" />
                                     <x-inputs.error :messages="$errors->get('invice_amount')" />
                                 </div>
 

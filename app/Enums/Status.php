@@ -12,6 +12,7 @@ final class Status extends Enum
     const OFFER_CREATED = 'offer_created';
     const TRACKING_OPEN = 'tracking_open';
     const ORDER_RECEIVED = 'order_received';
+    const AGENDA_DONE = 'agenda_done';
 
     public static function cases()
     {
@@ -27,6 +28,7 @@ final class Status extends Enum
             Status::OFFER_CREATED => 'Angebot wurde erstellt',
             Status::TRACKING_OPEN => 'Nachverfolgung offen',
             Status::ORDER_RECEIVED => 'Auftrag erhalten',
+            Status::AGENDA_DONE => 'Agenda Erledigt',
         };
     }
 

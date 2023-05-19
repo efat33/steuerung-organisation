@@ -263,17 +263,9 @@
 
     @push('css')
     <link rel="stylesheet" href="{{ asset('assets') }}/css/jquery-ui.min.css">
-    <style>
-        .form-select:focus {
-            border-color: #d2d6da
-        }
-    </style>
     @endpush
 
     @push('js')
-    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"> -->
-    <!-- <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> -->
-
     <script src="{{ asset('assets') }}/js/plugins/jquery-ui.min.js"></script>
     <script>
         $('#received_date, #offer_date, #offer_follow_up, #approval_date, #order_date').datepicker({
