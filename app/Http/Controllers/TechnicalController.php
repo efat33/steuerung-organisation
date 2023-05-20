@@ -12,9 +12,6 @@ class TechnicalController extends Controller
 {
     public function index()
     {
-        $data = array();
-
-        // $data['offers'] = TechnicalOffer::latest()->paginate(50);
         $technicalOffers = TechnicalOffer::paginate(config('settings.pagination.per_page'));
         return view('technical.index', compact('technicalOffers'));
     }
@@ -26,55 +23,15 @@ class TechnicalController extends Controller
 
     public function create()
     {
-        $data = array();
-
-        return view('technical.create', $data);
+        return view('technical.create');
     }
 
     public function store(TechniclOfferRequest $request)
-    {
-        $data = array();
-
-        // if ($request->get_over == '' && $request->cs_order_number == '' && $request->received_date == '' && $request->received_from == '' && $request->customer_number == '' && $request->technical_place == '' && $request->technical_place_address == '' && $request->technical_postcode == '' && $request->status == '' && $request->offer_type == '' && $request->ktb_number == '' && $request->quote_number == '' && $request->conversation_status == '' && $request->offer_date == '' && $request->offer_amount == '' && $request->offer_follow_up == '' && $request->order_number == '' && $request->order_date == '' && $request->order_amount == '' && $request->execution_date == '' && $request->approval_date == '' && $request->invice_amount == '' && $request->notes == '') {
-
-        //     return back()->with('status', 'The form is empty');
-
-        // }
-
-        if ($request->received_date != '') {
-            $received_date = Carbon::parse($request->received_date)->format('Y-m-d');
-        } else {
-            $received_date = null;
-        }
-        if ($request->offer_date != '') {
-            $offer_date = Carbon::parse($request->offer_date)->format('Y-m-d');
-        } else {
-            $offer_date = null;
-        }
-        if ($request->offer_follow_up != '') {
-            $offer_follow_up = Carbon::parse($request->offer_follow_up)->format('Y-m-d');
-        } else {
-            $offer_follow_up = null;
-        }
-        if ($request->order_date != '') {
-            $order_date = Carbon::parse($request->order_date)->format('Y-m-d');
-        } else {
-            $order_date = null;
-        }
-        if ($request->execution_date != '') {
-            $execution_date = Carbon::parse($request->execution_date)->format('Y-m-d');
-        } else {
-            $execution_date = null;
-        }
-        if ($request->approval_date != '') {
-            $approval_date = Carbon::parse($request->approval_date)->format('Y-m-d');
-        } else {
-            $approval_date = null;
-        }
+    {       
         TechnicalOffer::create([
             'get_over' => $request->get_over,
             'cs_order_number' => $request->cs_order_number,
-            'received_date' => $received_date,
+            'received_date' => $request->received_date != '' ? Carbon::parse($request->received_date)->format('Y-m-d') : null,
             'received_from' => $request->received_from,
             'customer_number' => $request->customer_number,
             'technical_place' => $request->technical_place,
@@ -85,15 +42,15 @@ class TechnicalController extends Controller
             'offer_type' => $request->offer_type,
             'ktb_number' => $request->ktb_number,
             'quote_number' => $request->quote_number,
-            'offer_date' => $offer_date,
+            'offer_date' => $request->offer_date != '' ? Carbon::parse($request->offer_date)->format('Y-m-d') : null,
             'offer_amount' => $request->offer_amount,
-            'offer_follow_up' => $offer_follow_up,
+            'offer_follow_up' => $request->offer_follow_up != '' ? Carbon::parse($request->offer_follow_up)->format('Y-m-d') : null,
             'conversation_status' => $request->conversation_status,
             'order_number' => $request->order_number,
-            'order_date' => $order_date,
+            'order_date' => $request->order_date != '' ? Carbon::parse($request->order_date)->format('Y-m-d') : null,
             'order_amount' => $request->order_amount,
-            'execution_date' => $execution_date,
-            'approval_date' => $approval_date,
+            'execution_date' => $request->execution_date != '' ? Carbon::parse($request->execution_date)->format('Y-m-d') : null,
+            'approval_date' => $request->approval_date != '' ? Carbon::parse($request->approval_date)->format('Y-m-d') : null,
             'invice_amount' => $request->invice_amount,
             'notes' => $request->notes,
         ]);
