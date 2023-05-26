@@ -51,10 +51,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/dashboard/success-rate', [DashboardController::class, 'successAction'])->name('dashboard.success');
 
     Route::get('/dashboard/quote-time', [DashboardController::class, 'success'])->name('dashboard.quote-time');
-    Route::get('/dashboard/technical-employee-evaluation', [DashboardController::class, 'success'])->name('dashboard.technical-employee-evaluation');
-    Route::get('/dashboard/maintenance-employee-evaluation', [DashboardController::class, 'success'])->name('dashboard.maintenance-employee-evaluation');
-    Route::get('/dashboard/technical-ktb-evaluation', [DashboardController::class, 'success'])->name('dashboard.technical-ktb-evaluation');
-    Route::get('/dashboard/maintenance-ktb-evaluation', [DashboardController::class, 'success'])->name('dashboard.maintenance-ktb-evaluation');
+
+    Route::get('/dashboard/employee-evaluation', [DashboardController::class, 'employeeEvaluation'])->name('dashboard.employee-evaluation');
+    Route::post('/dashboard/employee-evaluation', [DashboardController::class, 'employeeEvaluationAction'])->name('dashboard.employee-evaluation');
+
+    Route::get('/dashboard/ktb-evaluation', [DashboardController::class, 'success'])->name('dashboard.ktb-evaluation');
     Route::get('/dashboard/difference', [DashboardController::class, 'success'])->name('dashboard.difference');
     Route::get('/dashboard/evaluation-received-via', [DashboardController::class, 'success'])->name('dashboard.evaluation-received-via');
     Route::get('/dashboard/evaluation-result-after-interview', [DashboardController::class, 'success'])->name('dashboard.evaluation-result-after-interview');
