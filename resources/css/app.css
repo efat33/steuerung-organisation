@@ -8,3 +8,13 @@ select.form-select:focus {
 .form-select {
 	background-position: right 5px center;
 }
+a.dash-btn {
+    border: 1px solid #EC407A;
+    padding: 5px 10px;
+    border-radius: .375rem;
+    transition: .3s;
+}
+a.dash-btn:hover, a.dash-btn-active {
+    color: #ffffff;
+    background-color: #EC407A;
+}

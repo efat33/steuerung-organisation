@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TechnicalController;
 use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,6 +46,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/maintenance/{maintenanceOffer}/edit', [MaintenanceController::class, 'edit'])->name('maintenance.edit');
     Route::put('/maintenance/update/{maintenanceOffer}', [MaintenanceController::class, 'update'])->name('maintenance.update');
     Route::delete('/maintenance/destroy/{maintenanceOffer}', [MaintenanceController::class, 'destroy'])->name('maintenance.destroy');
+
+    Route::get('/dashboard/success-rate', [DashboardController::class, 'success'])->name('dashboard.success');
+    Route::post('/dashboard/success-rate', [DashboardController::class, 'successAction'])->name('dashboard.success');
+
+    Route::get('/dashboard/quote-time', [DashboardController::class, 'success'])->name('dashboard.quote-time');
+
+    Route::get('/dashboard/employee-evaluation', [DashboardController::class, 'employeeEvaluation'])->name('dashboard.employee-evaluation');
+    Route::post('/dashboard/employee-evaluation', [DashboardController::class, 'employeeEvaluationAction'])->name('dashboard.employee-evaluation');
+
+    Route::get('/dashboard/ktb-evaluation', [DashboardController::class, 'success'])->name('dashboard.ktb-evaluation');
+    Route::get('/dashboard/difference', [DashboardController::class, 'success'])->name('dashboard.difference');
+    Route::get('/dashboard/evaluation-received-via', [DashboardController::class, 'success'])->name('dashboard.evaluation-received-via');
+    Route::get('/dashboard/evaluation-result-after-interview', [DashboardController::class, 'success'])->name('dashboard.evaluation-result-after-interview');
+
 
 });
 
