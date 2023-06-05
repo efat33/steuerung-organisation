@@ -12,10 +12,10 @@
                         <div class="mb-5">
                             <a href="{{ route('dashboard.success') }}" class="d-inline-block me-1 my-1 dash-btn">Erfolgsquote</a>
                             <a href="{{ route('dashboard.quote-time') }}" class="d-inline-block me-1 my-1 dash-btn">Angebotszeiten</a>
-                            <a href="{{ route('dashboard.employee-evaluation') }}" class="d-inline-block me-1 my-1 dash-btn dash-btn-active">Mitarbeiterauswertung</a>
+                            <a href="{{ route('dashboard.employee-evaluation') }}" class="d-inline-block me-1 my-1 dash-btn">Mitarbeiterauswertung</a>
                             <a href="{{ route('dashboard.ktb-evaluation') }}" class="d-inline-block me-1 my-1 dash-btn">KTB Auswertung</a>
                             <a href="{{ route('dashboard.difference') }}" class="d-inline-block me-1 my-1 dash-btn">Differenz</a>
-                            <a href="{{ route('dashboard.evaluation-received-via') }}" class="d-inline-block me-1 my-1 dash-btn">Auswertung Erhalten über</a>
+                            <a href="{{ route('dashboard.evaluation-received-via') }}" class="d-inline-block me-1 my-1 dash-btn dash-btn-active">Auswertung Erhalten über</a>
                             <a href="{{ route('dashboard.evaluation-result-after-interview') }}" class="d-inline-block me-1 my-1 dash-btn">Auswertung: Resultat nach dem Gespräch</a>
                         </div>
 
@@ -24,8 +24,8 @@
                             <x-auth-session-status class="alert-success" :status="session('status')" />
                         </div>
                         @endif
-
-                        <form method='POST' action="<?= route('dashboard.employee-evaluation') ?>">
+                        
+                        <form method='POST' action="<?= route('dashboard.evaluation-received-via') ?>">
                             @csrf
 
                             <div class="row">
@@ -65,58 +65,60 @@
 
                         <div class="row mt-5">
                             <div class="col-6">
-                                <h6 class="font-weight-bolder mb-4">Technischer Mitarbeiterauswertung</h6>
+                                <h6 class="font-weight-bolder mb-4">Technischer KTB Auswertung</h6>
                                 <div class="row mb-3">
                                     <div class="col-md-6 col-sm-12">
-                                        <x-inputs.label class="fw-bold" value="Benutzer" />
+                                        <x-inputs.label class="fw-bold" value="Erhalten über" />
                                     </div>
                                     <div class="col-md-3 col-sm-12">
-                                        <x-inputs.label class="fw-bold" value="Angebot" />
+                                        <x-inputs.label class="fw-bold" value="Angebotsnummer" />
                                     </div>
                                     <div class="col-md-3 col-sm-12">
-                                        <x-inputs.label class="fw-bold" value="Befehl" />
+                                        <x-inputs.label class="fw-bold" value="Prozentsatz" />
                                     </div>
-                                </div> 
-                                @if (isset($technicalOffersOrders) && !$technicalOffersOrders->isEmpty())
-                                @foreach ($technicalOffersOrders as $item)
+                                </div>
+                                @if (isset($technicalOffers) && !$technicalOffers->isEmpty())
+                                @foreach ($technicalOffers as $item)
                                 <div class="row mb-3">
                                     <div class="col-md-6 col-sm-12">
-                                        <p class="text-secondary mb-0">{{ $item->user->name }}</p>
+                                        <p class="text-secondary mb-0">{{ $item->get_over != '' ?
+                                    App\Enums\GetOver::getLabel($item->get_over) : '' }}</p>
                                     </div>
                                     <div class="col-md-3 col-sm-12">
-                                        <p class="text-secondary mb-0">{{ $item->total_offer }} </p>
+                                        <p class="text-secondary text-center mb-0">{{ $item->total_received }} </p>
                                     </div>
                                     <div class="col-md-3 col-sm-12">
-                                        <p class="text-secondary mb-0">{{ $item->total_order }} </p>
+                                        <p class="text-secondary text-center mb-0">{{ $item->percent }} %</p>
                                     </div>
                                 </div>
                                 @endforeach
                                 @endif
                             </div>
                             <div class="col-6">
-                                <h6 class="font-weight-bolder mb-4">Wartung Mitarbeiterauswertung</h6>
+                                <h6 class="font-weight-bolder mb-4">Wartung KTB Auswertung</h6>
                                 <div class="row mb-3">
                                     <div class="col-md-6 col-sm-12">
-                                        <x-inputs.label class="fw-bold" value="Benutzer" />
+                                        <x-inputs.label class="fw-bold" value="Erhalten über" />
                                     </div>
                                     <div class="col-md-3 col-sm-12">
-                                        <x-inputs.label class="fw-bold" value="Angebot" />
+                                        <x-inputs.label class="fw-bold" value="Angebotsnummer" />
                                     </div>
                                     <div class="col-md-3 col-sm-12">
-                                        <x-inputs.label class="fw-bold" value="Befehl" />
+                                        <x-inputs.label class="fw-bold" value="Prozentsatz" />
                                     </div>
-                                </div> 
-                                @if (isset($maintenanceOffersOrders) && !$maintenanceOffersOrders->isEmpty())
-                                @foreach ($maintenanceOffersOrders as $item)
+                                </div>                                 
+                                @if (isset($maintenanceOffers) && !$maintenanceOffers->isEmpty())
+                                @foreach ($maintenanceOffers as $item)
                                 <div class="row mb-3">
                                     <div class="col-md-6 col-sm-12">
-                                        <p class="text-secondary mb-0">{{ $item->user->name }}</p>
+                                        <p class="text-secondary mb-0">{{ $item->get_over != '' ?
+                                    App\Enums\GetOver::getLabel($item->get_over) : '' }}</p>
                                     </div>
                                     <div class="col-md-3 col-sm-12">
-                                        <p class="text-secondary mb-0">{{ $item->total_offer }} </p>
+                                        <p class="text-secondary text-center mb-0">{{ $item->total_received }} </p>
                                     </div>
                                     <div class="col-md-3 col-sm-12">
-                                        <p class="text-secondary mb-0">{{ $item->total_order }} </p>
+                                        <p class="text-secondary text-center mb-0">{{ $item->percent }} %</p>
                                     </div>
                                 </div>
                                 @endforeach
