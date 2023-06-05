@@ -12,9 +12,9 @@
                         <div class="mb-5">
                             <a href="{{ route('dashboard.success') }}" class="d-inline-block me-1 my-1 dash-btn">Erfolgsquote</a>
                             <a href="{{ route('dashboard.quote-time') }}" class="d-inline-block me-1 my-1 dash-btn">Angebotszeiten</a>
-                            <a href="{{ route('dashboard.employee-evaluation') }}" class="d-inline-block me-1 my-1 dash-btn dash-btn-active">Mitarbeiterauswertung</a>
+                            <a href="{{ route('dashboard.employee-evaluation') }}" class="d-inline-block me-1 my-1 dash-btn">Mitarbeiterauswertung</a>
                             <a href="{{ route('dashboard.ktb-evaluation') }}" class="d-inline-block me-1 my-1 dash-btn">KTB Auswertung</a>
-                            <a href="{{ route('dashboard.difference') }}" class="d-inline-block me-1 my-1 dash-btn">Differenz</a>
+                            <a href="{{ route('dashboard.difference') }}" class="d-inline-block me-1 my-1 dash-btn dash-btn-active">Differenz</a>
                             <a href="{{ route('dashboard.evaluation-received-via') }}" class="d-inline-block me-1 my-1 dash-btn">Auswertung Erhalten über</a>
                             <a href="{{ route('dashboard.evaluation-result-after-interview') }}" class="d-inline-block me-1 my-1 dash-btn">Auswertung: Resultat nach dem Gespräch</a>
                         </div>
@@ -25,7 +25,7 @@
                         </div>
                         @endif
 
-                        <form method='POST' action="<?= route('dashboard.employee-evaluation') ?>">
+                        <form method='POST' action="<?= route('dashboard.difference') ?>">
                             @csrf
 
                             <div class="row">
@@ -65,62 +65,50 @@
 
                         <div class="row mt-5">
                             <div class="col-6">
-                                <h6 class="font-weight-bolder mb-4">Technischer Mitarbeiterauswertung</h6>
-                                <div class="row mb-3">
-                                    <div class="col-md-6 col-sm-12">
-                                        <x-inputs.label class="fw-bold" value="Benutzer" />
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">
-                                        <x-inputs.label class="fw-bold" value="Angebot" />
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">
-                                        <x-inputs.label class="fw-bold" value="Befehl" />
-                                    </div>
-                                </div> 
-                                @if (isset($technicalOffersOrders) && !$technicalOffersOrders->isEmpty())
-                                @foreach ($technicalOffersOrders as $item)
-                                <div class="row mb-3">
-                                    <div class="col-md-6 col-sm-12">
-                                        <p class="text-secondary mb-0">{{ $item->user->name }}</p>
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">
-                                        <p class="text-secondary mb-0">{{ $item->total_offer }} </p>
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">
-                                        <p class="text-secondary mb-0">{{ $item->total_order }} </p>
-                                    </div>
-                                </div>
-                                @endforeach
+                                <h6 class="font-weight-bolder mb-4">Technischer Angebotspreisunterschied</h6>
+                                @if (isset($technicalOffers) && !$technicalOffers->isEmpty())
+                                <table class="table table-hover mt-2">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Angebotsnummer</th>
+                                            <th scope="col">Unterschied</th>
+                                            <th scope="col">Prozentsatz</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>                                   
+                                    @foreach ($technicalOffers as $item)  
+                                        <tr>
+                                            <td class="text-center"><a class="text-decoration-underline" href="{{ route('technical.view', $item->id) }}">{{ $item->quote_number ?? "Abwesend" }}</a></td>
+                                            <td class="text-center">{{ $item->difference }} €</td>
+                                            <td class="text-center">{{ $item->percent }} %</td>
+                                        </tr>
+                                    @endforeach                   
+                                    </tbody>
+                                </table>
                                 @endif
                             </div>
                             <div class="col-6">
-                                <h6 class="font-weight-bolder mb-4">Wartung Mitarbeiterauswertung</h6>
-                                <div class="row mb-3">
-                                    <div class="col-md-6 col-sm-12">
-                                        <x-inputs.label class="fw-bold" value="Benutzer" />
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">
-                                        <x-inputs.label class="fw-bold" value="Angebot" />
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">
-                                        <x-inputs.label class="fw-bold" value="Befehl" />
-                                    </div>
-                                </div> 
-                                @if (isset($maintenanceOffersOrders) && !$maintenanceOffersOrders->isEmpty())
-                                @foreach ($maintenanceOffersOrders as $item)
-                                <div class="row mb-3">
-                                    <div class="col-md-6 col-sm-12">
-                                        <p class="text-secondary mb-0">{{ $item->user->name }}</p>
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">
-                                        <p class="text-secondary mb-0">{{ $item->total_offer }} </p>
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">
-                                        <p class="text-secondary mb-0">{{ $item->total_order }} </p>
-                                    </div>
-                                </div>
-                                @endforeach
-                                @endif
+                                <h6 class="font-weight-bolder mb-4">Preisunterschied im Wartungsangebot</h6>
+                                @if (isset($maintenanceOffers) && !$maintenanceOffers->isEmpty())
+                                <table class="table table-hover mt-2">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Angebotsnummer</th>
+                                            <th scope="col">Unterschied</th>
+                                            <th scope="col">Prozentsatz</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>                                  
+                                    @foreach ($maintenanceOffers as $item)  
+                                        <tr>
+                                            <td class="text-center"><a class="text-decoration-underline" href="{{ route('maintenance.view', $item->id) }}">{{ $item->quote_number ?? "Abwesend" }}</a></td>
+                                            <td class="text-center">{{ $item->difference }} €</td>
+                                            <td class="text-center">{{ $item->percent }} %</td>
+                                        </tr>
+                                    @endforeach                                                           
+                                    </tbody>
+                                </table>   
+                                @endif                          
                             </div>
                         </div>                       
 
