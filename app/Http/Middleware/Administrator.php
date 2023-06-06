@@ -18,7 +18,7 @@ class Administrator
     public function handle(Request $request, Closure $next)
     {
         if (!$request->user()->isAdmin()) {
-            return redirect(RouteServiceProvider::HOME);
+            return redirect(RouteServiceProvider::TECHINCAL);
         }
         return $next($request);
     }
