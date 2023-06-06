@@ -22,10 +22,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     // Users
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -49,8 +45,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/maintenance/{maintenanceOffer}/edit', [MaintenanceController::class, 'edit'])->name('maintenance.edit');
     Route::put('/maintenance/update/{maintenanceOffer}', [MaintenanceController::class, 'update'])->name('maintenance.update');
     Route::delete('/maintenance/destroy/{maintenanceOffer}', [MaintenanceController::class, 'destroy'])->name('maintenance.destroy');
+});
 
-    // Dashboard
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'success'])->name('dashboard');
     Route::get('/dashboard/success-rate', [DashboardController::class, 'success'])->name('dashboard.success');
     Route::post('/dashboard/success-rate', [DashboardController::class, 'successAction'])->name('dashboard.success');
     Route::get('/dashboard/quote-time', [DashboardController::class, 'quoteTime'])->name('dashboard.quote-time');
