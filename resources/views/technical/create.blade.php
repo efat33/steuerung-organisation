@@ -46,7 +46,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="received_date" value="Erhalten Am" />
                                     <x-inputs.text id="received_date" type="text" name="received_date"
-                                        value="{{ old('received_date') }}" placeholder="Wähle einen Dake" />
+                                        value="{{ old('received_date') }}" placeholder="Wähle ein Datum" />
                                     <x-inputs.error :messages="$errors->get('received_date')" />
                                 </div>
 
@@ -148,7 +148,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="offer_date" value="Angebotsdatum" />
                                     <x-inputs.text id="offer_date" type="text" name="offer_date"
-                                        value="{{ old('offer_date') }}" placeholder="Wähle einen Dake" />
+                                        value="{{ old('offer_date') }}" placeholder="Wähle ein Datum" />
                                     <x-inputs.error :messages="$errors->get('offer_date')" />
                                 </div>
 
@@ -166,7 +166,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="offer_follow_up" value="Angebotsnachfassung" />
                                     <x-inputs.text id="offer_follow_up" type="text" name="offer_follow_up"
-                                        value="{{ old('offer_follow_up') }}" placeholder="Wähle einen Dake" />
+                                        value="{{ old('offer_follow_up') }}" placeholder="Wähle ein Datum" />
                                     <x-inputs.error :messages="$errors->get('offer_follow_up')" />
                                 </div>
 
@@ -196,7 +196,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="order_date" value="Auftragsdatum" />
                                     <x-inputs.text id="order_date" type="text" name="order_date"
-                                        value="{{ old('order_date') }}" placeholder="Wähle einen Dake" />
+                                        value="{{ old('order_date') }}" placeholder="Wähle ein Datum" />
                                     <x-inputs.error :messages="$errors->get('order_date')" />
                                 </div>
 
@@ -214,7 +214,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="execution_date" value="Durchführungsdatum" />
                                     <x-inputs.text id="execution_date" type="text" name="execution_date"
-                                        value="{{ old('execution_date') }}" placeholder="Wähle einen Dake" />
+                                        value="{{ old('execution_date') }}" placeholder="Wähle ein Datum" />
                                     <x-inputs.error :messages="$errors->get('execution_date')" />
                                 </div>
 
@@ -225,7 +225,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="approval_date" value="Freigabe Zur Verrechnung" />
                                     <x-inputs.text id="approval_date" type="text" name="approval_date"
-                                        value="{{ old('approval_date') }}" placeholder="Wähle einen Dake" />
+                                        value="{{ old('approval_date') }}" placeholder="Wähle ein Datum" />
                                     <x-inputs.error :messages="$errors->get('approval_date')" />
                                 </div>
 

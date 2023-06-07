@@ -10,13 +10,7 @@
                 <div class="card card-plain h-100">
                     <div class="card-body p-3">
                         <div class="mb-5">
-                            <a href="{{ route('dashboard.success') }}" class="d-inline-block me-1 my-1 dash-btn">Erfolgsquote</a>
-                            <a href="{{ route('dashboard.quote-time') }}" class="d-inline-block me-1 my-1 dash-btn">Angebotszeiten</a>
-                            <a href="{{ route('dashboard.employee-evaluation') }}" class="d-inline-block me-1 my-1 dash-btn">Mitarbeiterauswertung</a>
-                            <a href="{{ route('dashboard.ktb-evaluation') }}" class="d-inline-block me-1 my-1 dash-btn dash-btn-active">KTB Auswertung</a>
-                            <a href="{{ route('dashboard.difference') }}" class="d-inline-block me-1 my-1 dash-btn">Differenz</a>
-                            <a href="{{ route('dashboard.evaluation-received-via') }}" class="d-inline-block me-1 my-1 dash-btn">Auswertung Erhalten über</a>
-                            <a href="{{ route('dashboard.evaluation-result-after-interview') }}" class="d-inline-block me-1 my-1 dash-btn">Auswertung: Resultat nach dem Gespräch</a>
+                            <x-buttons.dashboard-nav activePage="ktb-evaluation" />
                         </div>
 
                         @if (session('status'))
@@ -38,13 +32,13 @@
                                 <div class="mb-3 col-md-4">
                                     <x-inputs.label for="technisch_von" value="Technisch Von" />
                                     <x-inputs.text id="technisch_von" type="text" name="technisch_von"
-                                        value="{{ old('technisch_von') }}" placeholder="Wähle einen Dake" required/>
+                                        value="{{ old('technisch_von') }}" placeholder="Wähle ein Datum" required/>
                                 </div>
 
                                 <div class="mb-3 col-md-4">
                                     <x-inputs.label for="technisch_zu" value="Technisch Zu" />
                                     <x-inputs.text id="technisch_zu" type="text" name="technisch_zu"
-                                        value="{{ old('technisch_zu') }}" placeholder="Wähle einen Dake" required/>
+                                        value="{{ old('technisch_zu') }}" placeholder="Wähle ein Datum" required/>
                                 </div>
                             </div>
 
@@ -58,120 +52,120 @@
                                 <div class="mb-3 col-md-4">
                                     <x-inputs.label for="wartung_von" value="Wartung Von" />
                                     <x-inputs.text id="wartung_von" type="text" name="wartung_von"
-                                        value="{{ old('wartung_von') }}" placeholder="Wähle einen Dake" required/>
+                                        value="{{ old('wartung_von') }}" placeholder="Wähle ein Datum" required/>
                                 </div>
 
                                 <div class="mb-3 col-md-4">
                                     <x-inputs.label for="wartung_zu" value="Wartung Zu" />
                                     <x-inputs.text id="wartung_zu" type="text" name="wartung_zu"
-                                        value="{{ old('wartung_zu') }}" placeholder="Wähle einen Dake" required/>
+                                        value="{{ old('wartung_zu') }}" placeholder="Wähle ein Datum" required/>
                                 </div>
                             </div>
 
                             <x-buttons.dark>Search</x-buttons.dark>
                         </form>
 
-                        <div class="row mt-5">
-                            <div class="col-6">
+                        <div class="row">
+                            <div class="col-md-6 col-12 mt-5">
                                 <h6 class="font-weight-bolder mb-4">Technischer KTB Auswertung</h6>
                                 <div class="row mb-3">
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         <x-inputs.label class="fw-bold" value="KTB-Nummer" />
                                     </div>
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         @if (isset($technicalKtbNumber))
                                             <p class="text-secondary mb-0">{{ $technicalKtbNumber }} </p>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         <x-inputs.label class="fw-bold" value="Anzahl der Angebote" />
                                     </div>
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         @if (isset($technicalOffers))
                                             <p class="text-secondary mb-0">{{ $technicalOffers[0]->total_offer }} </p>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         <x-inputs.label class="fw-bold" value="Angebotssumme" />
                                     </div>
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         @if (isset($technicalOffers))
                                             <p class="text-secondary mb-0">{{ $technicalOffers[0]->total_offer_amount }} </p>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         <x-inputs.label class="fw-bold" value="Anzahl der Aufträge" />
                                     </div>
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         @if (isset($technicalOffers))
                                             <p class="text-secondary mb-0">{{ $technicalOrders[0]->total_order }} </p>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         <x-inputs.label class="fw-bold" value="Anftragssumme" />
                                     </div>
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         @if (isset($technicalOffers))
                                             <p class="text-secondary mb-0">{{ $technicalOrders[0]->total_order_amount }} </p>
                                         @endif
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-md-6 col-12 mt-5">
                                 <h6 class="font-weight-bolder mb-4">Wartung KTB Auswertung</h6>
                                 <div class="row mb-3">
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         <x-inputs.label class="fw-bold" value="KTB-Nummer" />
                                     </div>
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         @if (isset($maintenanceKtbNumber))
                                             <p class="text-secondary mb-0">{{ $maintenanceKtbNumber }} </p>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         <x-inputs.label class="fw-bold" value="Anzahl der Angebote" />
                                     </div>
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         @if (isset($maintenanceOffers))
                                             <p class="text-secondary mb-0">{{ $maintenanceOffers[0]->total_offer }} </p>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         <x-inputs.label class="fw-bold" value="Angebotssumme" />
                                     </div>
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         @if (isset($maintenanceOffers))
                                             <p class="text-secondary mb-0">{{ $maintenanceOffers[0]->total_offer_amount }} </p>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         <x-inputs.label class="fw-bold" value="Anzahl der Aufträge" />
                                     </div>
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         @if (isset($maintenanceOders))
                                             <p class="text-secondary mb-0">{{ $maintenanceOders[0]->total_order }} </p>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         <x-inputs.label class="fw-bold" value="Anftragssumme" />
                                     </div>
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-6 col-6">
                                         @if (isset($maintenanceOders))
                                             <p class="text-secondary mb-0">{{ $maintenanceOders[0]->total_order_amount }} </p>
                                         @endif

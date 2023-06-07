@@ -10,13 +10,7 @@
                 <div class="card card-plain h-100">
                     <div class="card-body p-3">
                         <div class="mb-5">
-                            <a href="{{ route('dashboard.success') }}" class="d-inline-block me-1 my-1 dash-btn">Erfolgsquote</a>
-                            <a href="{{ route('dashboard.quote-time') }}" class="d-inline-block me-1 my-1 dash-btn">Angebotszeiten</a>
-                            <a href="{{ route('dashboard.employee-evaluation') }}" class="d-inline-block me-1 my-1 dash-btn">Mitarbeiterauswertung</a>
-                            <a href="{{ route('dashboard.ktb-evaluation') }}" class="d-inline-block me-1 my-1 dash-btn">KTB Auswertung</a>
-                            <a href="{{ route('dashboard.difference') }}" class="d-inline-block me-1 my-1 dash-btn">Differenz</a>
-                            <a href="{{ route('dashboard.evaluation-received-via') }}" class="d-inline-block me-1 my-1 dash-btn">Auswertung Erhalten über</a>
-                            <a href="{{ route('dashboard.evaluation-result-after-interview') }}" class="d-inline-block me-1 my-1 dash-btn dash-btn-active">Auswertung: Resultat nach dem Gespräch</a>
+                            <x-buttons.dashboard-nav activePage="evaluation-result-after-interview" />
                         </div>
 
                         @if (session('status'))
@@ -24,88 +18,52 @@
                             <x-auth-session-status class="alert-success" :status="session('status')" />
                         </div>
                         @endif
-                        
-                        <form method='POST' action="<?= route('dashboard.evaluation-result-after-interview') ?>">
-                            @csrf
 
-                            <div class="row">
+                        <x-forms.dashboard-filter action="{{ route('dashboard.evaluation-result-after-interview') }}" />
 
-                                <div class="mb-3 col-md-6">
-                                    <x-inputs.label for="technisch_von" value="Technisch Von" />
-                                    <x-inputs.text id="technisch_von" type="text" name="technisch_von"
-                                        value="{{ old('technisch_von') }}" placeholder="Wähle einen Dake" required/>
-                                </div>
-
-                                <div class="mb-3 col-md-6">
-                                    <x-inputs.label for="technisch_zu" value="Technisch Zu" />
-                                    <x-inputs.text id="technisch_zu" type="text" name="technisch_zu"
-                                        value="{{ old('technisch_zu') }}" placeholder="Wähle einen Dake" required/>
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-
-                                <div class="mb-3 col-md-6">
-                                    <x-inputs.label for="wartung_von" value="Wartung Von" />
-                                    <x-inputs.text id="wartung_von" type="text" name="wartung_von"
-                                        value="{{ old('wartung_von') }}" placeholder="Wähle einen Dake" required/>
-                                </div>
-
-                                <div class="mb-3 col-md-6">
-                                    <x-inputs.label for="wartung_zu" value="Wartung Zu" />
-                                    <x-inputs.text id="wartung_zu" type="text" name="wartung_zu"
-                                        value="{{ old('wartung_zu') }}" placeholder="Wähle einen Dake" required/>
-                                </div>
-
-                            </div>
-
-                            <x-buttons.dark>Search</x-buttons.dark>
-                        </form>
-
-                        <div class="row mt-5">
-                            <div class="col-6">
+                        <div class="row">
+                            <div class="col-md-6 col-12 mt-5">
                                 <h6 class="font-weight-bolder mb-4">Technischer KTB Auswertung</h6>
                                 <div class="row mb-3">
-                                    <div class="col-md-8 col-sm-12">
+                                    <div class="col-md-8 col-8">
                                         <x-inputs.label class="fw-bold" value="Erhalten über" />
                                     </div>
-                                    <div class="col-md-4 col-sm-12">
+                                    <div class="col-md-4 col-4">
                                         <x-inputs.label class="fw-bold" value="Angebotsnummer" />
                                     </div>
                                 </div>
                                 @if (isset($technicalOffers) && !$technicalOffers->isEmpty())
                                 @foreach ($technicalOffers as $item)
                                 <div class="row mb-3">
-                                    <div class="col-md-8 col-sm-12">
+                                    <div class="col-md-8 col-8">
                                         <p class="text-secondary mb-0">{{ $item->conversation_status != '' ?
                                     App\Enums\ConversationStatus::getLabel($item->conversation_status) : '' }}</p>
                                     </div>
-                                    <div class="col-md-4 col-sm-12">
+                                    <div class="col-md-4 col-4">
                                         <p class="text-secondary text-center mb-0">{{ $item->total_received }} </p>
                                     </div>
                                 </div>
                                 @endforeach
                                 @endif
                             </div>
-                            <div class="col-6">
+                            <div class="col-md-6 col-12 mt-5">
                                 <h6 class="font-weight-bolder mb-4">Wartung KTB Auswertung</h6>
                                 <div class="row mb-3">
-                                    <div class="col-md-8 col-sm-12">
+                                    <div class="col-md-8 col-8">
                                         <x-inputs.label class="fw-bold" value="Erhalten über" />
                                     </div>
-                                    <div class="col-md-4 col-sm-12">
+                                    <div class="col-md-4 col-4">
                                         <x-inputs.label class="fw-bold" value="Angebotsnummer" />
                                     </div>
                                 </div>                                 
                                 @if (isset($maintenanceOffers) && !$maintenanceOffers->isEmpty())
                                 @foreach ($maintenanceOffers as $item)
                                 <div class="row mb-3">
-                                    <div class="col-md-8 col-sm-12">
+                                    <div class="col-md-8 col-8">
                                         <p class="text-secondary mb-0">{{ $item->conversation_status != '' ?
                                     App\Enums\ConversationStatus::getLabel($item->conversation_status) : '' }}</p>
                                     </div>
-                                    <div class="col-md-4 col-sm-12">
+                                    <div class="col-md-4 col-4">
                                         <p class="text-secondary text-center mb-0">{{ $item->total_received }} </p>
                                     </div>
                                 </div>

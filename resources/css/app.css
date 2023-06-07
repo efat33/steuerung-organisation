@@ -18,3 +18,21 @@ a.dash-btn:hover, a.dash-btn-active {
     color: #ffffff;
     background-color: #EC407A;
 }
+li.nav-item.logout-on-mobile {
+    padding-top: 20px;
+}
+.logout-on-mobile a {
+    padding-left: 34px !important;
+    color: #EC407A; 
+}
+li.nav-item.show-on-mobile {
+    display: none;;
+}
+@media only screen and (max-width: 575px) {
+    li.nav-item.show-on-mobile {
+        display: block;
+    }
+    label, .form-label {
+        margin-left: 0;
+    }
+}

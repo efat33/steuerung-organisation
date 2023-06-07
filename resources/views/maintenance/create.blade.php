@@ -46,7 +46,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="received_date" value="Erhalten Am" />
                                     <x-inputs.text id="received_date" type="text" name="received_date"
-                                        value="{{ old('received_date') }}" placeholder="Wähle einen Dake" />
+                                        value="{{ old('received_date') }}" placeholder="Wähle ein Datum" />
                                     <x-inputs.error :messages="$errors->get('received_date')" />
                                 </div>
 
@@ -130,7 +130,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="offer_date" value="Angebotsdatum" />
                                     <x-inputs.text id="offer_date" type="text" name="offer_date"
-                                        value="{{ old('offer_date') }}" placeholder="Wähle einen Dake" />
+                                        value="{{ old('offer_date') }}" placeholder="Wähle ein Datum" />
                                     <x-inputs.error :messages="$errors->get('offer_date')" />
                                 </div>
 
@@ -148,7 +148,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="offer_follow_up" value="Angebotsnachfassung" />
                                     <x-inputs.text id="offer_follow_up" type="text" name="offer_follow_up"
-                                        value="{{ old('offer_follow_up') }}" placeholder="Wähle einen Dake" />
+                                        value="{{ old('offer_follow_up') }}" placeholder="Wähle ein Datum" />
                                     <x-inputs.error :messages="$errors->get('offer_follow_up')" />
                                 </div>
 
@@ -182,7 +182,7 @@
                                 <div class="mb-3 col-md-6">
                                     <x-inputs.label for="contact_conclusion" value="Abschluss des Wartungsvertrags" />
                                     <x-inputs.text id="contact_conclusion" type="text" name="contact_conclusion"
-                                        value="{{ old('contact_conclusion') }}" placeholder="Wähle einen Dake" />
+                                        value="{{ old('contact_conclusion') }}" placeholder="Wähle ein Datum" />
                                     <x-inputs.error :messages="$errors->get('contact_conclusion')" />
                                 </div>
 

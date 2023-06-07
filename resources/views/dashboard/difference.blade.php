@@ -10,13 +10,7 @@
                 <div class="card card-plain h-100">
                     <div class="card-body p-3">
                         <div class="mb-5">
-                            <a href="{{ route('dashboard.success') }}" class="d-inline-block me-1 my-1 dash-btn">Erfolgsquote</a>
-                            <a href="{{ route('dashboard.quote-time') }}" class="d-inline-block me-1 my-1 dash-btn">Angebotszeiten</a>
-                            <a href="{{ route('dashboard.employee-evaluation') }}" class="d-inline-block me-1 my-1 dash-btn">Mitarbeiterauswertung</a>
-                            <a href="{{ route('dashboard.ktb-evaluation') }}" class="d-inline-block me-1 my-1 dash-btn">KTB Auswertung</a>
-                            <a href="{{ route('dashboard.difference') }}" class="d-inline-block me-1 my-1 dash-btn dash-btn-active">Differenz</a>
-                            <a href="{{ route('dashboard.evaluation-received-via') }}" class="d-inline-block me-1 my-1 dash-btn">Auswertung Erhalten über</a>
-                            <a href="{{ route('dashboard.evaluation-result-after-interview') }}" class="d-inline-block me-1 my-1 dash-btn">Auswertung: Resultat nach dem Gespräch</a>
+                            <x-buttons.dashboard-nav activePage="difference" />
                         </div>
 
                         @if (session('status'))
@@ -24,47 +18,11 @@
                             <x-auth-session-status class="alert-success" :status="session('status')" />
                         </div>
                         @endif
+                        
+                        <x-forms.dashboard-filter action="{{ route('dashboard.difference') }}" />
 
-                        <form method='POST' action="<?= route('dashboard.difference') ?>">
-                            @csrf
-
-                            <div class="row">
-
-                                <div class="mb-3 col-md-6">
-                                    <x-inputs.label for="technisch_von" value="Technisch Von" />
-                                    <x-inputs.text id="technisch_von" type="text" name="technisch_von"
-                                        value="{{ old('technisch_von') }}" placeholder="Wähle einen Dake" required/>
-                                </div>
-
-                                <div class="mb-3 col-md-6">
-                                    <x-inputs.label for="technisch_zu" value="Technisch Zu" />
-                                    <x-inputs.text id="technisch_zu" type="text" name="technisch_zu"
-                                        value="{{ old('technisch_zu') }}" placeholder="Wähle einen Dake" required/>
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-
-                                <div class="mb-3 col-md-6">
-                                    <x-inputs.label for="wartung_von" value="Wartung Von" />
-                                    <x-inputs.text id="wartung_von" type="text" name="wartung_von"
-                                        value="{{ old('wartung_von') }}" placeholder="Wähle einen Dake" required/>
-                                </div>
-
-                                <div class="mb-3 col-md-6">
-                                    <x-inputs.label for="wartung_zu" value="Wartung Zu" />
-                                    <x-inputs.text id="wartung_zu" type="text" name="wartung_zu"
-                                        value="{{ old('wartung_zu') }}" placeholder="Wähle einen Dake" required/>
-                                </div>
-
-                            </div>
-
-                            <x-buttons.dark>Search</x-buttons.dark>
-                        </form>
-
-                        <div class="row mt-5">
-                            <div class="col-6">
+                        <div class="row">
+                            <div class="col-md-6 col-12 mt-5">
                                 <h6 class="font-weight-bolder mb-4">Technischer Angebotspreisunterschied</h6>
                                 @if (isset($technicalOffers) && !$technicalOffers->isEmpty())
                                 <table class="table table-hover mt-2">
@@ -87,7 +45,7 @@
                                 </table>
                                 @endif
                             </div>
-                            <div class="col-6">
+                            <div class="col-md-6 col-12 mt-5">
                                 <h6 class="font-weight-bolder mb-4">Preisunterschied im Wartungsangebot</h6>
                                 @if (isset($maintenanceOffers) && !$maintenanceOffers->isEmpty())
                                 <table class="table table-hover mt-2">
