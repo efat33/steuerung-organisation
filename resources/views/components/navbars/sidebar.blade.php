@@ -52,6 +52,26 @@
                     <span class="nav-link-text ms-1">Maintenance Offer</span>
                 </a>
             </li>
+            <li class="nav-item show-on-mobile">
+                <a class="nav-link text-white {{ $activePage == 'user-profile' ? ' active bg-gradient-primary' : '' }} "
+                    href="{{ route('profile.edit') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <span class="material-icons">person</span>
+                    </div>
+                    <span class="nav-link-text ms-1">Profile</span>
+                </a>
+            </li>
+            <li class="nav-item show-on-mobile logout-on-mobile">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <x-dropdown-link :href="route('logout')"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Sign Out') }}
+                    </x-dropdown-link>
+                </form>
+            </li>    
         </ul>
     </div>
 </aside>
