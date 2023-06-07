@@ -10,13 +10,20 @@
                 <div class="card card-plain h-100">
                     <div class="card-body p-3">
                         <div class="mb-5">
-                            <a href="{{ route('dashboard.success') }}" class="d-inline-block me-1 my-1 dash-btn">Erfolgsquote</a>
-                            <a href="{{ route('dashboard.quote-time') }}" class="d-inline-block me-1 my-1 dash-btn dash-btn-active">Angebotszeiten</a>
-                            <a href="{{ route('dashboard.employee-evaluation') }}" class="d-inline-block me-1 my-1 dash-btn">Mitarbeiterauswertung</a>
-                            <a href="{{ route('dashboard.ktb-evaluation') }}" class="d-inline-block me-1 my-1 dash-btn">KTB Auswertung</a>
-                            <a href="{{ route('dashboard.difference') }}" class="d-inline-block me-1 my-1 dash-btn">Differenz</a>
-                            <a href="{{ route('dashboard.evaluation-received-via') }}" class="d-inline-block me-1 my-1 dash-btn">Auswertung Erhalten über</a>
-                            <a href="{{ route('dashboard.evaluation-result-after-interview') }}" class="d-inline-block me-1 my-1 dash-btn">Auswertung: Resultat nach dem Gespräch</a>
+                            <a href="{{ route('dashboard.success') }}"
+                                class="d-inline-block me-1 my-1 dash-btn">Erfolgsquote</a>
+                            <a href="{{ route('dashboard.quote-time') }}"
+                                class="d-inline-block me-1 my-1 dash-btn dash-btn-active">Angebotszeiten</a>
+                            <a href="{{ route('dashboard.employee-evaluation') }}"
+                                class="d-inline-block me-1 my-1 dash-btn">Mitarbeiterauswertung</a>
+                            <a href="{{ route('dashboard.ktb-evaluation') }}"
+                                class="d-inline-block me-1 my-1 dash-btn">KTB Auswertung</a>
+                            <a href="{{ route('dashboard.difference') }}"
+                                class="d-inline-block me-1 my-1 dash-btn">Differenz</a>
+                            <a href="{{ route('dashboard.evaluation-received-via') }}"
+                                class="d-inline-block me-1 my-1 dash-btn">Auswertung Erhalten über</a>
+                            <a href="{{ route('dashboard.evaluation-result-after-interview') }}"
+                                class="d-inline-block me-1 my-1 dash-btn">Auswertung: Resultat nach dem Gespräch</a>
                         </div>
 
                         @if (session('status'))
@@ -27,7 +34,7 @@
 
                         <form method='POST' action="<?= route('dashboard.quote-time') ?>">
                             @csrf
-                         
+
                             <div class="row">
 
                                 <div class="mb-3 col-md-6">
@@ -78,10 +85,13 @@
                                 @foreach ($technicalOffers as $item)
                                 <div class="row mb-3">
                                     <div class="col-md-6 col-sm-12">
-                                        <p class="text-secondary mb-0"><a class="text-decoration-underline" href="{{ route('technical.view', $item->id) }}">{{ $item->quote_number ?? "Abwesend" }}</a></p>
+                                        <p class="text-secondary mb-0"><a class="text-decoration-underline"
+                                                href="{{ route('technical.view', $item->id) }}">{{ $item->quote_number
+                                                ?? "Abwesend" }}</a></p>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
-                                        <p class="text-secondary mb-0">{{ $item->days }} @choice("Tag|Tage", $item->days)</p>
+                                        <p class="text-secondary mb-0">{{ $item->days }} @choice("Tag|Tage",
+                                            $item->days)</p>
                                     </div>
                                 </div>
                                 @endforeach
@@ -101,16 +111,19 @@
                                 @foreach ($maintenanceOffers as $item)
                                 <div class="row mb-3">
                                     <div class="col-md-6 col-sm-12">
-                                        <p class="text-secondary mb-0"><a class="text-decoration-underline" href="{{ route('maintenance.view', $item->id) }}">{{ $item->quote_number ?? "Abwesend" }}</a></p>
+                                        <p class="text-secondary mb-0"><a class="text-decoration-underline"
+                                                href="{{ route('maintenance.view', $item->id) }}">{{ $item->quote_number
+                                                ?? "Abwesend" }}</a></p>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
-                                        <p class="text-secondary mb-0">{{ $item->days }} @choice("Tag|Tage", $item->days)</p>
+                                        <p class="text-secondary mb-0">{{ $item->days }} @choice("Tag|Tage",
+                                            $item->days)</p>
                                     </div>
                                 </div>
                                 @endforeach
                                 @endif
                             </div>
-                        </div>                       
+                        </div>
 
                     </div>
                 </div>
