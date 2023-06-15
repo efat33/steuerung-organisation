@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
 
     // Technical
     Route::get('/technical', [TechnicalController::class, 'index'])->name('technical.index');
+    Route::post('/technical', [TechnicalController::class, 'indexAction'])->name('technical.index');
     Route::get('/technical/{technicalOffer}/view', [TechnicalController::class, 'view'])->name('technical.view');
     Route::get('/technical/create', [TechnicalController::class, 'create'])->name('technical.create');
     Route::post('/technical/store', [TechnicalController::class, 'store'])->name('technical.store');
@@ -39,6 +40,7 @@ Route::middleware('auth')->group(function () {
 
     // Maintenance
     Route::get('/maintenance', [MaintenanceController::class, 'index'])->name('maintenance.index');
+    Route::post('/maintenance', [MaintenanceController::class, 'indexAction'])->name('maintenance.index');
     Route::get('/maintenance/{maintenanceOffer}/view', [MaintenanceController::class, 'view'])->name('maintenance.view');
     Route::get('/maintenance/create', [MaintenanceController::class, 'create'])->name('maintenance.create');
     Route::post('/maintenance/store', [MaintenanceController::class, 'store'])->name('maintenance.store');

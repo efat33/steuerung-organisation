@@ -18,6 +18,13 @@ class DashboardController extends Controller
 
     public function successAction(Request $request)
     {  
+        $request->validate([
+            'technisch_von' => ['required_with:technisch_zu'],
+            'technisch_zu' => ['required_with:technisch_von'],
+            'wartung_von' => ['required_with:wartung_zu'],
+            'wartung_zu' => ['required_with:wartung_von'],
+        ]);
+    
         $technischVon = Carbon::parse($request->technisch_von)->format('Y-m-d');
         $technischZu = Carbon::parse($request->technisch_zu)->format('Y-m-d');
         $wartungVon = Carbon::parse($request->wartung_von)->format('Y-m-d');
@@ -69,6 +76,13 @@ class DashboardController extends Controller
 
     public function quoteTimeAction(Request $request)
     {  
+        $request->validate([
+            'technisch_von' => ['required_with:technisch_zu'],
+            'technisch_zu' => ['required_with:technisch_von'],
+            'wartung_von' => ['required_with:wartung_zu'],
+            'wartung_zu' => ['required_with:wartung_von'],
+        ]);
+
         $technischVon = Carbon::parse($request->technisch_von)->format('Y-m-d');
         $technischZu = Carbon::parse($request->technisch_zu)->format('Y-m-d');
         $wartungVon = Carbon::parse($request->wartung_von)->format('Y-m-d');
@@ -116,6 +130,13 @@ class DashboardController extends Controller
 
     public function employeeEvaluationAction(Request $request)
     {  
+        $request->validate([
+            'technisch_von' => ['required_with:technisch_zu'],
+            'technisch_zu' => ['required_with:technisch_von'],
+            'wartung_von' => ['required_with:wartung_zu'],
+            'wartung_zu' => ['required_with:wartung_von'],
+        ]);
+
         $technischVon = Carbon::parse($request->technisch_von)->format('Y-m-d');
         $technischZu = Carbon::parse($request->technisch_zu)->format('Y-m-d');
         $wartungVon = Carbon::parse($request->wartung_von)->format('Y-m-d');
@@ -159,6 +180,15 @@ class DashboardController extends Controller
 
     public function ktbEvaluationAction(Request $request)
     {  
+        $request->validate([
+            'technical_ktb_number' => ['required_with:technisch_von', 'required_with:technisch_zu'],
+            'technisch_von' => ['required_with:technical_ktb_number', 'required_with:technisch_zu'],
+            'technisch_zu' => ['required_with:technical_ktb_number', 'required_with:technisch_von'],
+            'maintenance_ktb_number' => ['required_with:wartung_von', 'required_with:wartung_zu'],
+            'wartung_von' => ['required_with:maintenance_ktb_number', 'required_with:wartung_zu'],
+            'wartung_zu' => ['required_with:maintenance_ktb_number', 'required_with:wartung_von'],
+        ]);
+
         $technicalKtbNumber = $request->technical_ktb_number;
         $technischVon = Carbon::parse($request->technisch_von)->format('Y-m-d');
         $technischZu = Carbon::parse($request->technisch_zu)->format('Y-m-d');
@@ -192,6 +222,13 @@ class DashboardController extends Controller
 
     public function differenceAction(Request $request)
     {
+        $request->validate([
+            'technisch_von' => ['required_with:technisch_zu'],
+            'technisch_zu' => ['required_with:technisch_von'],
+            'wartung_von' => ['required_with:wartung_zu'],
+            'wartung_zu' => ['required_with:wartung_von'],
+        ]);
+
         $technischVon = Carbon::parse($request->technisch_von)->format('Y-m-d');
         $technischZu = Carbon::parse($request->technisch_zu)->format('Y-m-d');
         $wartungVon = Carbon::parse($request->wartung_von)->format('Y-m-d');
@@ -241,6 +278,13 @@ class DashboardController extends Controller
 
     public function receivedViaAction(Request $request)
     {  
+        $request->validate([
+            'technisch_von' => ['required_with:technisch_zu'],
+            'technisch_zu' => ['required_with:technisch_von'],
+            'wartung_von' => ['required_with:wartung_zu'],
+            'wartung_zu' => ['required_with:wartung_von'],
+        ]);
+
         $technischVon = Carbon::parse($request->technisch_von)->format('Y-m-d');
         $technischZu = Carbon::parse($request->technisch_zu)->format('Y-m-d');
         $wartungVon = Carbon::parse($request->wartung_von)->format('Y-m-d');
@@ -300,6 +344,13 @@ class DashboardController extends Controller
 
     public function evaluationAfterInterviewAction(Request $request)
     {  
+        $request->validate([
+            'technisch_von' => ['required_with:technisch_zu'],
+            'technisch_zu' => ['required_with:technisch_von'],
+            'wartung_von' => ['required_with:wartung_zu'],
+            'wartung_zu' => ['required_with:wartung_von'],
+        ]);
+        
         $technischVon = Carbon::parse($request->technisch_von)->format('Y-m-d');
         $technischZu = Carbon::parse($request->technisch_zu)->format('Y-m-d');
         $wartungVon = Carbon::parse($request->wartung_von)->format('Y-m-d');

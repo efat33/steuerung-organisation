@@ -35,11 +35,12 @@ final class Status extends Enum
     public static function getColor($value): string
     {
         return match ($value) {
-            Status::OPEN => 'red',
-            Status::IN_PROGRESS => 'yellow',
+            Status::OPEN => '#ED2A18',
+            Status::IN_PROGRESS => '#FFC300',
             Status::OFFER_CREATED => 'violet',
-            Status::TRACKING_OPEN => 'orange',
-            Status::ORDER_RECEIVED => 'green',
+            Status::TRACKING_OPEN => '#FF5F1F',
+            Status::ORDER_RECEIVED => '#00FFFF',
+            Status::AGENDA_DONE => '#04AA6D',
         };
     }
 }

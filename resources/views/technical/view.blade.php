@@ -1,3 +1,9 @@
+<?php 
+    $status_color = '#7b809a';
+    if($technicalOffer->status != ''){
+        $status_color = App\Enums\Status::getColor($technicalOffer->status);
+    }
+?>
 <x-app-layout bodyClass="g-sidenav-show bg-gray-200">
 
     <x-navbars.sidebar activePage="technical-offer"></x-navbars.sidebar>
@@ -103,7 +109,7 @@
                                 <x-inputs.label class="fw-bold" value="Status" />
                             </div>
                             <div class="col-md-9 col-sm-12">
-                                <p class="text-secondary mb-0">{{ $technicalOffer->status != '' ?
+                                <p class="mb-0" style="color: <?= $status_color ?>">{{ $technicalOffer->status != '' ?
                                     App\Enums\Status::getLabel($technicalOffer->status) : '' }}
                                 </p>
                             </div>

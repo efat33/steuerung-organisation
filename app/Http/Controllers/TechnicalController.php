@@ -16,6 +16,30 @@ class TechnicalController extends Controller
         return view('technical.index', compact('technicalOffers'));
     }
 
+    public function indexAction(Request $request)
+    {
+        $filterKeys = array();
+        if ($request->get_over != '') {
+            $filterKeys['get_over'] = $request->get_over;
+        }
+        if ($request->status != '') {
+            $filterKeys['status'] = $request->status;
+        }
+        if ($request->offer_type != '') {
+            $filterKeys['offer_type'] = $request->offer_type;
+        }
+        if ($request->conversation_status != '') {
+            $filterKeys['conversation_status'] = $request->conversation_status;
+        }
+        if(count($filterKeys) > 0){
+            $technicalOffers = TechnicalOffer::where($filterKeys)->paginate(config('settings.pagination.per_page'));
+        } else {
+            $technicalOffers = TechnicalOffer::paginate(config('settings.pagination.per_page'));
+        }
+
+        return view('technical.index', compact('technicalOffers'));
+    }
+
     public function view(TechnicalOffer $technicalOffer)
     {
         return view('technical.view', compact('technicalOffer'));

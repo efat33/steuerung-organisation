@@ -26,19 +26,22 @@
                                 <div class="mb-3 col-md-4">
                                     <x-inputs.label for="technical_ktb_number" value="Technisch KTB-Nummer" />
                                     <x-inputs.text id="technical_ktb_number" type="text" name="technical_ktb_number"
-                                        value="{{ old('technical_ktb_number') }}" required/>
+                                        value="{{ old('technical_ktb_number') }}" />
+                                    <x-inputs.error :messages="$errors->get('technical_ktb_number')" />
                                 </div>
 
                                 <div class="mb-3 col-md-4">
                                     <x-inputs.label for="technisch_von" value="Technisch Von" />
                                     <x-inputs.text id="technisch_von" type="text" name="technisch_von"
-                                        value="{{ old('technisch_von') }}" placeholder="Wähle ein Datum" required/>
+                                        value="{{ old('technisch_von') }}" placeholder="Wähle ein Datum" />
+                                    <x-inputs.error :messages="$errors->get('technisch_von')" />
                                 </div>
 
                                 <div class="mb-3 col-md-4">
                                     <x-inputs.label for="technisch_zu" value="Technisch Zu" />
                                     <x-inputs.text id="technisch_zu" type="text" name="technisch_zu"
-                                        value="{{ old('technisch_zu') }}" placeholder="Wähle ein Datum" required/>
+                                        value="{{ old('technisch_zu') }}" placeholder="Wähle ein Datum" />
+                                    <x-inputs.error :messages="$errors->get('technisch_zu')" />
                                 </div>
                             </div>
 
@@ -46,19 +49,22 @@
                                 <div class="mb-3 col-md-4">
                                     <x-inputs.label for="maintenance_ktb_number" value="Wartung KTB-Nummer" />
                                     <x-inputs.text id="maintenance_ktb_number" type="text" name="maintenance_ktb_number"
-                                        value="{{ old('maintenance_ktb_number') }}" required/>
+                                        value="{{ old('maintenance_ktb_number') }}" />
+                                    <x-inputs.error :messages="$errors->get('maintenance_ktb_number')" />
                                 </div>
 
                                 <div class="mb-3 col-md-4">
                                     <x-inputs.label for="wartung_von" value="Wartung Von" />
                                     <x-inputs.text id="wartung_von" type="text" name="wartung_von"
-                                        value="{{ old('wartung_von') }}" placeholder="Wähle ein Datum" required/>
+                                        value="{{ old('wartung_von') }}" placeholder="Wähle ein Datum" />
+                                    <x-inputs.error :messages="$errors->get('wartung_von')" />
                                 </div>
 
                                 <div class="mb-3 col-md-4">
                                     <x-inputs.label for="wartung_zu" value="Wartung Zu" />
                                     <x-inputs.text id="wartung_zu" type="text" name="wartung_zu"
-                                        value="{{ old('wartung_zu') }}" placeholder="Wähle ein Datum" required/>
+                                        value="{{ old('wartung_zu') }}" placeholder="Wähle ein Datum" />
+                                    <x-inputs.error :messages="$errors->get('wartung_zu')" />
                                 </div>
                             </div>
 
