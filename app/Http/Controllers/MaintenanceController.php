@@ -16,6 +16,30 @@ class MaintenanceController extends Controller
         return view('maintenance.index', compact('maintenanceOffers'));
     }
 
+    public function indexAction(Request $request)
+    {
+        $filterKeys = array();
+        if ($request->get_over != '') {
+            $filterKeys['get_over'] = $request->get_over;
+        }
+        if ($request->status != '') {
+            $filterKeys['status'] = $request->status;
+        }
+        if ($request->conversation_status != '') {
+            $filterKeys['conversation_status'] = $request->conversation_status;
+        }
+        if ($request->package != '') {
+            $filterKeys['package'] = $request->package;
+        }
+        if(count($filterKeys) > 0){
+            $maintenanceOffers = MaintenanceOffer::where($filterKeys)->paginate(config('settings.pagination.per_page'));
+        } else {
+            $maintenanceOffers = MaintenanceOffer::paginate(config('settings.pagination.per_page'));
+        }
+        
+        return view('maintenance.index', compact('maintenanceOffers'));
+    }
+
     public function view(MaintenanceOffer $maintenanceOffer)
     {
         return view('maintenance.view', compact('maintenanceOffer'));
