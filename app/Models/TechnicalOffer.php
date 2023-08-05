@@ -20,6 +20,8 @@ class TechnicalOffer extends Model
     'received_date',
     'received_from',
     'customer_number',
+    'contact_person',
+    'contact_number',
     'technical_place',
     'technical_place_address',
     'technical_postcode',

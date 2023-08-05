@@ -23,10 +23,19 @@
 
                         <div class="row mb-3">
                             <div class="col-md-3 col-sm-12">
-                                <x-inputs.label class="fw-bold" value="Registriert durch" />
+                                <x-inputs.label class="fw-bold" value="Nummer" />
                             </div>
                             <div class="col-md-9 col-sm-12">
-                                <p class="text-secondary mb-0">{{ $maintenanceOffer->user->name }} </p>
+                                <p class="text-secondary mb-0">{{ $maintenanceOffer->id }} </p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3 col-sm-12">
+                                <x-inputs.label class="fw-bold" value="Sachbearbeiter im Innendienst" />
+                            </div>
+                            <div class="col-md-9 col-sm-12">
+                                <p class="text-secondary mb-0">{{ $maintenanceOffer->user->name ?? 'Nicht zugeordnet' }} </p>
                             </div>
                         </div>
 
@@ -106,12 +115,41 @@
 
                         <div class="row mb-3">
                             <div class="col-md-3 col-sm-12">
+                                <x-inputs.label class="fw-bold" value="Ansprechpartner" />
+                            </div>
+                            <div class="col-md-9 col-sm-12">
+                                <p class="text-secondary mb-0">{{ $maintenanceOffer->contact_person }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3 col-sm-12">
+                                <x-inputs.label class="fw-bold" value="Gesprächspartner" />
+                            </div>
+                            <div class="col-md-9 col-sm-12">
+                                <p class="text-secondary mb-0"><a href="tel:{{ $maintenanceOffer->contact_number }}">{{ $maintenanceOffer->contact_number }}</a></p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3 col-sm-12">
                                 <x-inputs.label class="fw-bold" value="Status" />
                             </div>
                             <div class="col-md-9 col-sm-12">
                                 <p class="mb-0" style="color: <?= $status_color ?>">{{ $maintenanceOffer->status != '' ?
                                     App\Enums\Status::getLabel($maintenanceOffer->status) : '' }}
                                 </p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3 col-sm-12">
+                                <x-inputs.label class="fw-bold" value="Angebotsart" />
+                            </div>
+                            <div class="col-md-9 col-sm-12">
+                                <p class="text-secondary mb-0">{{
+                                    $maintenanceOffer->offer_type != '' ?
+                                    App\Enums\OfferType::getLabel($maintenanceOffer->offer_type) : '' }} </p>
                             </div>
                         </div>
 
@@ -211,6 +249,20 @@
                             </div>
                             <div class="col-md-9 col-sm-12">
                                 <p class="text-secondary mb-0">{{ $maintenanceOffer->sum_per_year }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3 col-sm-12">
+                                <x-inputs.label class="fw-bold" value="PDF Datei" />
+                            </div>
+                            <div class="col-md-9 col-sm-12">
+                                @if($maintenanceOffer->file_name)  
+                                    @foreach($filesArray as $item)
+                                        {{ $loop->first ? '' : ', ' }}
+                                        <span class="d-inline-block">{{ $loop->iteration.'.' }} <x-anchors.anchor href="{{config('const.site.url')}}public/uploads/{{$item}}" target="_blank">{{ $item }}</x-anchors.anchor></span>
+                                    @endforeach                                   
+                                @endif                             
                             </div>
                         </div>
 

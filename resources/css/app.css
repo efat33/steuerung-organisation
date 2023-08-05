@@ -26,7 +26,28 @@ li.nav-item.logout-on-mobile {
     color: #EC407A; 
 }
 li.nav-item.show-on-mobile {
-    display: none;;
+    display: none;
+}
+.grid-parent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+}
+.delete-pdf-icon {
+    transform: translateY(4px);
+    cursor: pointer;
+}
+.opacity-100 {
+    opacity: 100%;
+}
+.opacity-30 {
+    opacity: 30%;
+}
+@media only screen and (max-width: 767px) {
+    .grid-parent {
+        grid-template-columns: 1fr;
+        grid-gap: unset;
+    }
 }
 @media only screen and (max-width: 575px) {
     li.nav-item.show-on-mobile {

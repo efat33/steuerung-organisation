@@ -20,10 +20,12 @@ return new class extends Migration
             $table->date('received_date')->nullable();
             $table->string('received_from', 50)->nullable();
             $table->string('customer_number', 10)->nullable();
+            $table->string('contact_person', 50)->nullable();
+            $table->string('contact_number', 15)->nullable();
             $table->string('technical_place', 10)->nullable();
             $table->string('technical_place_address', 100)->nullable();
             $table->string('technical_postcode', 4)->nullable();
-            $table->unsignedBigInteger('registered_by');
+            $table->unsignedBigInteger('registered_by')->nullable();
             $table->string('status', 50)->nullable();
             $table->string('offer_type', 10)->nullable();
             $table->integer('ktb_number')->nullable();
@@ -31,6 +33,7 @@ return new class extends Migration
             $table->date('offer_date')->nullable();
             $table->decimal('offer_amount', 13, 2)->nullable();
             $table->date('offer_follow_up')->nullable();
+            $table->date('offer_follow_up_emailed')->nullable();
             $table->string('conversation_status', 100)->nullable();
             $table->integer('order_number')->nullable();
             $table->date('order_date')->nullable();
@@ -39,6 +42,7 @@ return new class extends Migration
             $table->date('approval_date')->nullable();
             $table->decimal('invice_amount', 13, 2)->nullable();
             $table->text('notes')->nullable();
+            $table->text('file_name', 100)->nullable();
             $table->timestamps();
 
             $table->foreign('registered_by')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');

@@ -4,64 +4,50 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\TechniclOfferRequest;
+use App\Mail\MailToWorker;
 use App\Models\TechnicalOffer;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\File;
+use App\Jobs\EmailWorkerJob;
 
 class TechnicalController extends Controller
 {
     public function index()
     {
-        $technicalOffers = TechnicalOffer::paginate(config('settings.pagination.per_page'));
-        return view('technical.index', compact('technicalOffers'));
-    }
-
-    public function indexAction(Request $request)
-    {
-        $filterKeys = array();
-        if ($request->get_over != '') {
-            $filterKeys['get_over'] = $request->get_over;
-        }
-        if ($request->status != '') {
-            $filterKeys['status'] = $request->status;
-        }
-        if ($request->offer_type != '') {
-            $filterKeys['offer_type'] = $request->offer_type;
-        }
-        if ($request->conversation_status != '') {
-            $filterKeys['conversation_status'] = $request->conversation_status;
-        }
-        if(count($filterKeys) > 0){
-            $technicalOffers = TechnicalOffer::where($filterKeys)->paginate(config('settings.pagination.per_page'));
-        } else {
-            $technicalOffers = TechnicalOffer::paginate(config('settings.pagination.per_page'));
-        }
-
+        $technicalOffers = TechnicalOffer::latest()->paginate(config('settings.pagination.per_page'));
         return view('technical.index', compact('technicalOffers'));
     }
 
     public function view(TechnicalOffer $technicalOffer)
     {
-        return view('technical.view', compact('technicalOffer'));
+        $file_name = $technicalOffer['file_name'];
+        $filesArray = explode('/ ', $file_name);
+        return view('technical.view', compact('technicalOffer', 'filesArray'));
     }
 
     public function create()
     {
-        return view('technical.create');
+        $users = User::where('user_type', 'worker')->get();
+        return view('technical.create', compact('users'));
     }
 
     public function store(TechniclOfferRequest $request)
     {       
-        TechnicalOffer::create([
+        $technicalOfferId = TechnicalOffer::create([
             'get_over' => $request->get_over,
             'cs_order_number' => $request->cs_order_number,
             'received_date' => $request->received_date != '' ? Carbon::parse($request->received_date)->format('Y-m-d') : null,
             'received_from' => $request->received_from,
             'customer_number' => $request->customer_number,
+            'contact_person' => $request->contact_person,
+            'contact_number' => $request->contact_number,
             'technical_place' => $request->technical_place,
             'technical_place_address' => $request->technical_place_address,
             'technical_postcode' => $request->technical_postcode,
-            'registered_by' => auth()->user()->id,
+            'registered_by' => $request->registered_by,
             'status' => $request->status,
             'offer_type' => $request->offer_type,
             'ktb_number' => $request->ktb_number,
@@ -77,27 +63,67 @@ class TechnicalController extends Controller
             'approval_date' => $request->approval_date != '' ? Carbon::parse($request->approval_date)->format('Y-m-d') : null,
             'invice_amount' => $request->invice_amount,
             'notes' => $request->notes,
-        ]);
+        ])->id;
+
+        if ($request->hasfile('pdf_file')) {
+            $filesArray = array();
+            foreach ($request->pdf_file as $file) {
+                $originalName = $file->getClientOriginalName();
+                $originalName = basename($originalName, ".pdf");
+
+                $extension = $file->extension();
+                $fileName = $originalName.'_'.time(); 
+                $fileName = str_replace(' ', '_', $fileName); 
+                $fileName = str_replace('-', '_', $fileName); 
+                $fileName = $fileName.'.'.$extension;
+                
+                $file->move(public_path('uploads'), $fileName);
+
+                array_push($filesArray, $fileName);             
+            }
+            $filesString = implode("/ ",$filesArray);
+
+            $technicalOffer = TechnicalOffer::find($technicalOfferId);
+            $technicalOffer->file_name = $filesString;
+            $technicalOffer->save();
+        }
+        
+        if ($request->registered_by){
+            $user = User::find($request->registered_by);
+            //Mail::to($user->email)->send(new MailToWorker($user->name, $technicalOfferId, 'technical'));
+            dispatch(new EmailWorkerJob($user->email, $user->name, $technicalOfferId, 'technical'));
+        }
 
         return back()->with('status', 'Technical offer added successfully');
     }
 
     public function edit(TechnicalOffer $technicalOffer)
     {
-        return view('technical.edit', compact('technicalOffer'));
+        $users = User::where('user_type', 'worker')->get();
+        $file_name = $technicalOffer['file_name'];
+        $filesArray = explode('/ ', $file_name);
+        return view('technical.edit', compact('technicalOffer', 'users', 'filesArray'));
     }
 
     public function update(TechniclOfferRequest $request, TechnicalOffer $technicalOffer)
     {
+        if ($request->registered_by != $technicalOffer->registered_by){
+            $user = User::find($request->registered_by);
+            //Mail::to($user->email)->send(new MailToWorker($user->name, $technicalOffer->id, 'technical'));
+            dispatch(new EmailWorkerJob($user->email, $user->name, $technicalOffer->id, 'technical'));
+        }
+        
         $technicalOffer->get_over = $request->get_over;
         $technicalOffer->cs_order_number = $request->cs_order_number;
         $technicalOffer->received_date = $request->received_date != '' ? Carbon::parse($request->received_date)->format('Y-m-d') : null;
         $technicalOffer->received_from = $request->received_from;
         $technicalOffer->customer_number = $request->customer_number;
+        $technicalOffer->contact_person = $request->contact_person;
+        $technicalOffer->contact_number = $request->contact_number;
         $technicalOffer->technical_place = $request->technical_place;
         $technicalOffer->technical_place_address = $request->technical_place_address;
         $technicalOffer->technical_postcode = $request->technical_postcode;
-        $technicalOffer->registered_by = $technicalOffer->registered_by;
+        $technicalOffer->registered_by = $request->registered_by;
         $technicalOffer->status = $request->status;
         $technicalOffer->offer_type = $request->offer_type;
         $technicalOffer->ktb_number = $request->ktb_number;
@@ -114,6 +140,84 @@ class TechnicalController extends Controller
         $technicalOffer->invice_amount = $request->invice_amount;
         $technicalOffer->notes = $request->notes;
 
+        $filesArray = array();
+        $finalFilesArray = array();
+        if ($request->hasfile('pdf_file')) {
+            foreach ($request->pdf_file as $file) {
+                $originalName = $file->getClientOriginalName();
+                $originalName = basename($originalName, ".pdf");
+
+                $extension = $file->extension();
+                $fileName = $originalName.'_'.time(); 
+                $fileName = str_replace(' ', '_', $fileName); 
+                $fileName = str_replace('-', '_', $fileName); 
+                $fileName = $fileName.'.'.$extension;
+                
+                $file->move(public_path('uploads'), $fileName);
+
+                array_push($filesArray, $fileName); 
+
+                $filesDeleteArray = array();
+                if ($request->files_to_delete) {
+                    $filesToDelete = $request->files_to_delete;
+                    $filesToDeleteArray = explode('pdf', $filesToDelete);
+
+                    foreach ($filesToDeleteArray as $item) {
+                        $item = $item.'pdf';
+                        array_push($filesDeleteArray, $item);
+                    }
+                    array_pop($filesDeleteArray);
+    
+                    foreach ($filesDeleteArray as $item) {
+                        if(File::exists(public_path('uploads/'.$item))){
+                            File::delete(public_path('uploads/'.$item));
+                        }
+                    }
+                }
+                
+                if($technicalOffer->file_name){
+                    $existed_file_name = $technicalOffer['file_name'];
+                    $existedFilesArray = explode('/ ', $existed_file_name);
+                    $finalFilesArray = array_merge($existedFilesArray, $filesArray);
+                } else {
+                    $finalFilesArray = $filesArray;
+                }
+                if($filesDeleteArray){
+                    $finalFilesArray = array_diff($finalFilesArray, $filesDeleteArray);
+                }
+            }
+            $finalFilesString = implode("/ ",$finalFilesArray);
+            $technicalOffer->file_name = $finalFilesString;
+        } else {
+            if ($request->files_to_delete) {
+                $filesToDelete = $request->files_to_delete;
+                $filesToDeleteArray = explode('pdf', $filesToDelete);
+
+                foreach ($filesToDeleteArray as $item) {
+                    $item = $item.'pdf';
+                    array_push($filesArray, $item);
+                }
+                array_pop($filesArray);
+
+                foreach ($filesArray as $item) {
+                    if(File::exists(public_path('uploads/'.$item))){
+                        File::delete(public_path('uploads/'.$item));
+                    }
+                }
+          
+                $existed_file_name = $technicalOffer['file_name'];
+                $existedFilesArray = explode('/ ', $existed_file_name);
+
+                $finalFilesArray = array_diff($existedFilesArray, $filesArray);
+
+                if ($finalFilesArray){
+                    $finalFilesString = implode("/ ",$finalFilesArray);
+                    $technicalOffer->file_name = $finalFilesString;
+                } else {
+                    $technicalOffer->file_name = Null;
+                }
+            } 
+        }
         $technicalOffer->save();
 
         return Redirect::back()->with('status', 'Updated Successfully');
@@ -124,5 +228,64 @@ class TechnicalController extends Controller
         $technicalOffer->delete();
 
         return Redirect::back()->with('status', 'Deleted Successfully');
+    }
+
+    public function search()
+    {
+        $users = User::where('user_type', 'worker')->get();
+        $data = array();
+        $data['users'] = $users;
+        $data['is_form_submit'] = false;
+
+        if(request()->has('_token')){
+            $keyword = '';
+            $filterKeys = array();
+            if(request()->filled('keyword')){
+                $keyword = request()->keyword;
+            }
+            if (request()->filled('registered_by')) {
+                $filterKeys['registered_by'] = request()->registered_by;
+            }
+            if (request()->filled('get_over')) {
+                $filterKeys['get_over'] = request()->get_over;
+            }
+            if (request()->filled('status')) {
+                $filterKeys['status'] = request()->status;
+            }
+            if (request()->filled('offer_type')) {
+                $filterKeys['offer_type'] = request()->offer_type;
+            }
+            if (request()->filled('conversation_status')) {
+                $filterKeys['conversation_status'] = request()->conversation_status;
+            }
+            if(count($filterKeys) > 0 || $keyword != '') {
+                $technicalOffers = TechnicalOffer::where($filterKeys)
+                        ->where(function ($query) use ($keyword) {
+                            $query->orWhere('id', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('customer_number', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('contact_number', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('contact_person', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('technical_place', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('technical_postcode', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('ktb_number', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('quote_number', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('order_number', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('cs_order_number', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('received_from', 'LIKE', '%'.$keyword.'%');
+                        })
+                        ->paginate(config('settings.pagination.per_page'));
+                if(count($technicalOffers) == 0){
+                    $data['is_form_submit'] = true;
+                    return view('technical.search', $data)->with('status', 'Keine Übereinstimmung gefunden.');
+                }
+                $data['technicalOffers'] = $technicalOffers;
+                $data['is_form_submit'] = true;
+                return view('technical.search', $data);
+            } else {
+                $data['is_form_submit'] = true;
+                return view('technical.search', $data)->with('status', 'Geben Sie die Schlüssel im Formular oben ein.');
+            }
+        }
+        return view('technical.search', $data);
     }
 }

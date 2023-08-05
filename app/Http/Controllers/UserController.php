@@ -40,6 +40,7 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
+        // dd($request->user_type);
         User::create([
             'name' => $request->name,
             'email' => $request->email,

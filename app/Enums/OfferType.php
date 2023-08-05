@@ -7,8 +7,8 @@ use Illuminate\Validation\Rules\Enum;
 
 final class OfferType extends Enum
 {
-    const BAU = 'bau';
     const AUT = 'aut';
+    const BAU = 'bau';
 
     public static function cases()
     {
@@ -19,8 +19,8 @@ final class OfferType extends Enum
     public static function getLabel($value): string
     {
         return match ($value) {
-            OfferType::BAU => 'BAU',
             OfferType::AUT => 'AUT',
+            OfferType::BAU => 'BAU',
         };
     }
 }

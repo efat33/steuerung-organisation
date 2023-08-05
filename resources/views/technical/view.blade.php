@@ -23,10 +23,19 @@
 
                         <div class="row mb-3">
                             <div class="col-md-3 col-sm-12">
-                                <x-inputs.label class="fw-bold" value="Registriert durch" />
+                                <x-inputs.label class="fw-bold" value="Nummer" />
                             </div>
                             <div class="col-md-9 col-sm-12">
-                                <p class="text-secondary mb-0">{{ $technicalOffer->user->name }} </p>
+                                <p class="text-secondary mb-0">{{ $technicalOffer->id }} </p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3 col-sm-12">
+                                <x-inputs.label class="fw-bold" value="Sachbearbeiter im Innendienst" />
+                            </div>
+                            <div class="col-md-9 col-sm-12">
+                                <p class="text-secondary mb-0">{{ $technicalOffer->user->name ?? 'Nicht zugeordnet' }} </p>
                             </div>
                         </div>
 
@@ -101,6 +110,24 @@
                             </div>
                             <div class="col-md-9 col-sm-12">
                                 <p class="text-secondary mb-0">{{ $technicalOffer->technical_postcode }} </p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3 col-sm-12">
+                                <x-inputs.label class="fw-bold" value="Ansprechpartner" />
+                            </div>
+                            <div class="col-md-9 col-sm-12">
+                                <p class="text-secondary mb-0">{{ $technicalOffer->contact_person }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3 col-sm-12">
+                                <x-inputs.label class="fw-bold" value="Gesprächspartner" />
+                            </div>
+                            <div class="col-md-9 col-sm-12">
+                                <p class="text-secondary mb-0"><a href="tel:{{ $technicalOffer->contact_number }}">{{ $technicalOffer->contact_number }}</a></p>
                             </div>
                         </div>
 
@@ -248,6 +275,20 @@
                             </div>
                             <div class="col-md-9 col-sm-12">
                                 <p class="text-secondary mb-0">{{ $technicalOffer->notes }} </p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3 col-sm-12">
+                                <x-inputs.label class="fw-bold" value="PDF Datei" />
+                            </div>
+                            <div class="col-md-9 col-sm-12">
+                                @if($technicalOffer->file_name)  
+                                    @foreach($filesArray as $item)
+                                        {{ $loop->first ? '' : ', ' }}
+                                        <span class="d-inline-block">{{ $loop->iteration.'.' }} <x-anchors.anchor href="{{config('const.site.url')}}public/uploads/{{$item}}" target="_blank">{{ $item }}</x-anchors.anchor></span>
+                                    @endforeach                                   
+                                @endif                             
                             </div>
                         </div>
 
