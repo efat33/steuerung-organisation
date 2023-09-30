@@ -21,8 +21,8 @@ final class UserRole extends Enum
     {
         return match ($value) {
             UserRole::ADMIN => 'Admin',
-            UserRole::TECHNICIAN => 'Technician',
-            UserRole::WORKER => 'Worker',
+            UserRole::TECHNICIAN => 'Interner Beobachter',
+            UserRole::WORKER => 'Innendienstmitarbeiter',
         };
     }
 }

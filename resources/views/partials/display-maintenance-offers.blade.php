@@ -5,13 +5,16 @@
                 <span class="px-2">Nummer</span>
             </th>
             <th class="text-uppercase px-2 text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                <span class="px-2">Registriert durch</span>
+                <span class="px-2">Bearbeiter</span>
             </th>
             <th class="text-uppercase px-2 text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                 <span class="px-2">Status</span>
             </th>
+            <th class="text-uppercase px-2 text-secondary text-xxs font-weight-bolder opacity-7 ps-2 table-col-address">
+                <span class="px-2">Technischer Platz (Bezeichnung/Adress)</span>
+            </th>
             <th class="text-uppercase px-2 text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                <span class="px-2">Follow-up-Termin</span>
+                <span class="px-2">Technischer Platz (Nummer)</span>
             </th>
             <th class="text-uppercase px-2 text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                 <span class="px-2"></span>
@@ -44,9 +47,13 @@
                     </div>
                 </td>
                 <td>
+                    <div class="d-flex px-2 flex-column justify-content-center table-col-address">
+                        <p class="text-dark mb-0">{{ $item->technical_place_address }}</p>
+                    </div>
+                </td>
+                <td>
                     <div class="d-flex px-2 flex-column justify-content-center">
-                        <p class="text-dark mb-0">{{ $item->offer_follow_up != '' ? date('d-m-Y',
-                                    strtotime($item->offer_follow_up)) : '' }}</p>
+                        <p class="text-dark mb-0">{{ $item->technical_place }}</p>
                     </div>
                 </td>
                 <td class="align-middle">

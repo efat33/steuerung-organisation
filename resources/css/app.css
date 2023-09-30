@@ -33,7 +33,8 @@ li.nav-item.show-on-mobile {
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
 }
-.delete-pdf-icon {
+.delete-pdf-icon,
+.delete-pdf-icon-prev {
     transform: translateY(4px);
     cursor: pointer;
 }
@@ -43,6 +44,27 @@ li.nav-item.show-on-mobile {
 .opacity-30 {
     opacity: 30%;
 }
+img.navbar-brand-img.h-100 {
+    margin: 0 auto;
+}
+.pdf-preview-item {
+    font-size: .875rem;
+    font-weight: 400;
+    color: #7b809a;
+    margin-left: 0.25rem;
+    list-style: none;
+}
+.table-col-address {
+    max-width: 300px;
+}
+.table-col-address p {
+    max-width: 300px !important;
+    white-space: break-spaces
+}
+table .btn {
+    padding: .5rem 1rem;
+}
+
 @media only screen and (max-width: 767px) {
     .grid-parent {
         grid-template-columns: 1fr;

@@ -21,6 +21,7 @@ class MaintenanceOffer extends Model
     'received_from',
     'customer_number',
     'contact_person',
+    'customer_email_address',
     'contact_number',
     'technical_place',
     'technical_place_address',
@@ -38,6 +39,7 @@ class MaintenanceOffer extends Model
     'contact_conclusion',
     'package',
     'sum_per_year',
+    'notes',
   ];
 
   // Join to users table

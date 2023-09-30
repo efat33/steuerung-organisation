@@ -21,13 +21,15 @@ return new class extends Migration
             $table->string('received_from', 50)->nullable();
             $table->string('customer_number', 10)->nullable();
             $table->string('contact_person', 50)->nullable();
+            $table->string('customer_email_address', 50)->nullable();
             $table->string('contact_number', 15)->nullable();
             $table->string('technical_place', 10)->nullable();
-            $table->string('technical_place_address', 100)->nullable();
+            $table->string('technical_place_address', 200)->nullable();
             $table->string('technical_postcode', 4)->nullable();
             $table->unsignedBigInteger('registered_by')->nullable();
             $table->string('status', 50)->nullable();
             $table->string('offer_type', 10)->nullable();
+            $table->string('civil_technical_acceptance', 50)->nullable();
             $table->integer('ktb_number')->nullable();
             $table->integer('quote_number')->nullable();
             $table->date('offer_date')->nullable();

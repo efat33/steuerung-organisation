@@ -39,14 +39,14 @@
                                 </div>
 
                                 <div class="grid-item">
-                                    <x-inputs.label for="received_date" value="Erhalten Am" />
+                                    <x-inputs.label for="received_date" value="Erhalten am" />
                                     <x-inputs.text id="received_date" type="text" name="received_date"
                                         value="{{ old('received_date') }}" placeholder="Wähle ein Datum" />
                                     <x-inputs.error :messages="$errors->get('received_date')" />
                                 </div>
 
                                 <div class="grid-item">
-                                    <x-inputs.label for="received_from" value="Erhalten Von" />
+                                    <x-inputs.label for="received_from" value="Erhalten von" />
                                     <x-inputs.text id="received_from" type="text" name="received_from"
                                         value="{{ old('received_from') }}" />
                                     <x-inputs.error :messages="$errors->get('received_from')" />
@@ -60,14 +60,14 @@
                                 </div>
 
                                 <div class="grid-item">
-                                    <x-inputs.label for="technical_place" value="Technischer Platz" />
+                                    <x-inputs.label for="technical_place" value="Technischer Platz (Nummer)" />
                                     <x-inputs.text id="technical_place" type="text" name="technical_place"
                                         value="{{ old('technical_place') }}" />
                                     <x-inputs.error :messages="$errors->get('technical_place')" />
                                 </div>
 
                                 <div class="grid-item">
-                                    <x-inputs.label for="technical_place_address" value="Technische Ortsadresse" />
+                                    <x-inputs.label for="technical_place_address" value="Technischer Platz (Bezeichnung/Adress)" />
                                     <x-inputs.textarea id="technical_place_address" type="text"
                                         name="technical_place_address" value="{{ old('technical_place_address') }}" />
                                     <x-inputs.error :messages="$errors->get('technical_place_address')" />
@@ -88,7 +88,14 @@
                                 </div>
 
                                 <div class="grid-item">
-                                    <x-inputs.label for="contact_number" value="Gesprächspartner" />
+                                    <x-inputs.label for="customer_email_address" value="E-Mail-Adresse des Kunden" />
+                                    <x-inputs.text id="customer_email_address" type="text" name="customer_email_address"
+                                        value="{{ old('customer_email_address') }}" />
+                                    <x-inputs.error :messages="$errors->get('customer_email_address')" />
+                                </div>
+
+                                <div class="grid-item">
+                                    <x-inputs.label for="contact_number" value="Telefonnummer v. Ansprechpartner" />
                                     <x-inputs.text id="contact_number" type="text" name="contact_number"
                                         value="{{ old('contact_number') }}" />
                                     <x-inputs.error :messages="$errors->get('contact_number')" />
@@ -166,7 +173,7 @@
                                 </div>
 
                                 <div class="grid-item">
-                                    <x-inputs.label for="conversation_status" value="Resultat Nach Dem Gespräch" />
+                                    <x-inputs.label for="conversation_status" value="Gesprächsresultat" />
                                     <x-select-box.select-box name="conversation_status" title="Select Option">
                                         <option value="" selected>Select Option</option>
                                         @foreach (App\Enums\ConversationStatus::cases() as $item)
@@ -185,7 +192,7 @@
                                 </div>
 
                                 <div class="grid-item">
-                                    <x-inputs.label for="contact_conclusion" value="Abschluss des Wartungsvertrags" />
+                                    <x-inputs.label for="contact_conclusion" value="Wartungsvertragsdatum" />
                                     <x-inputs.text id="contact_conclusion" type="text" name="contact_conclusion"
                                         value="{{ old('contact_conclusion') }}" placeholder="Wähle ein Datum" />
                                     <x-inputs.error :messages="$errors->get('contact_conclusion')" />
@@ -209,10 +216,18 @@
                                         value="{{ old('sum_per_year') }}" />
                                     <x-inputs.error :messages="$errors->get('sum_per_year')" />
                                 </div>
+                                
+                                <div class="grid-item">
+                                    <x-inputs.label for="notes" value="Notizen" />
+                                    <x-inputs.textarea id="notes" type="text" name="notes" value="{{ old('notes') }}" />
+                                    <x-inputs.error :messages="$errors->get('notes')" />
+                                </div>
 
                                 <div class="grid-item">
-                                    <x-inputs.label for="pdf_file" value="Aktualisieren Sie das PDF" />
+                                    <x-inputs.label for="pdf_file" value="Datei hinzufügen" />
+                                    <div class="pdf-preview"></div>
                                     <x-inputs.text id="pdf_file" type="file" accept="application/pdf" name="pdf_file[]" value="{{ old('pdf_file') }}" multiple/>
+                                    <x-inputs.text id="files_not_previewed" name="files_not_previewed" type="hidden" />
                                     <x-inputs.error :messages="$errors->get('pdf_file')" />
                                 </div>
                             </div>
@@ -251,6 +266,20 @@
             changeMonth: true,
             changeYear: true,
         });
+        $("input:file").change(function (){
+            $(".pdf-preview").html("");
+            const pdfFiles = document.getElementById('pdf_file');
+            for (let i = 0; i < pdfFiles.files.length; ++i) {
+                let name = pdfFiles.files.item(i).name;
+                $(".pdf-preview").append("<li class='pdf-preview-item'><span class='material-icons delete-pdf-icon'>delete</span> <span>"+name+"</span></li>");
+            }
+        });
+        $(document).on('click', '.delete-pdf-icon', function(e) {
+            e.preventDefault();
+            $(this).siblings().toggleClass('opacity-30');
+            const filesName = $('.opacity-30').text();
+            $('#files_not_previewed').val(filesName);
+        }); 
     </script>
 
     @endpush

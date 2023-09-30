@@ -43,6 +43,7 @@ class MaintenanceController extends Controller
             'received_from' => $request->received_from,
             'customer_number' => $request->customer_number,
             'contact_person' => $request->contact_person,
+            'customer_email_address' => $request->customer_email_address,
             'contact_number' => $request->contact_number,
             'technical_place' => $request->technical_place,
             'technical_place_address' => $request->technical_place_address,
@@ -53,16 +54,20 @@ class MaintenanceController extends Controller
             'ktb_number' => $request->ktb_number,
             'quote_number' => $request->quote_number,
             'offer_date' => $request->offer_date != '' ? Carbon::parse($request->offer_date)->format('Y-m-d') : null,
-            'offer_amount' => $request->offer_amount,
+            'offer_amount' => $request->offer_amount != '' ? str_replace(',','.',$request->offer_amount) : null,
             'offer_follow_up' => $request->offer_follow_up != '' ? Carbon::parse($request->offer_follow_up)->format('Y-m-d') : null,
             'conversation_status' => $request->conversation_status,
             'maintenance_contact' => $request->maintenance_contact,
             'contact_conclusion' => $request->contact_conclusion != '' ? Carbon::parse($request->contact_conclusion)->format('Y-m-d') : null,
             'package' => $request->package,
             'sum_per_year' => $request->sum_per_year,
+            'notes' => $request->notes,
         ])->id;
 
         if ($request->hasfile('pdf_file')) {
+            $files_not_previewed = $request->files_not_previewed;
+            $filesNotPreviewedArray = explode('.pdf', $files_not_previewed);
+            array_pop($filesNotPreviewedArray);
             $filesArray = array();
             foreach ($request->pdf_file as $file) {
                 $originalName = $file->getClientOriginalName();
@@ -73,10 +78,12 @@ class MaintenanceController extends Controller
                 $fileName = str_replace(' ', '_', $fileName); 
                 $fileName = str_replace('-', '_', $fileName); 
                 $fileName = $fileName.'.'.$extension;
-                
-                $file->move(public_path('uploads'), $fileName);
 
-                array_push($filesArray, $fileName);             
+                $isMatched = in_array($originalName, $filesNotPreviewedArray);
+                if(!$isMatched){
+                    $file->move(public_path('uploads'), $fileName);
+                    array_push($filesArray, $fileName);
+                }             
             }
             $filesString = implode("/ ",$filesArray);
 
@@ -116,6 +123,7 @@ class MaintenanceController extends Controller
         $maintenanceOffer->received_from = $request->received_from;
         $maintenanceOffer->customer_number = $request->customer_number;
         $maintenanceOffer->contact_person = $request->contact_person;
+        $maintenanceOffer->customer_email_address = $request->customer_email_address;
         $maintenanceOffer->contact_number = $request->contact_number;
         $maintenanceOffer->technical_place = $request->technical_place;
         $maintenanceOffer->technical_place_address = $request->technical_place_address;
@@ -126,17 +134,21 @@ class MaintenanceController extends Controller
         $maintenanceOffer->ktb_number = $request->ktb_number;
         $maintenanceOffer->quote_number = $request->quote_number;
         $maintenanceOffer->offer_date = $request->offer_date != '' ? Carbon::parse($request->offer_date)->format('Y-m-d') : null;
-        $maintenanceOffer->offer_amount = $request->offer_amount;
+        $maintenanceOffer->offer_amount = $request->offer_amount != '' ? str_replace(',','.',$request->offer_amount) : null;
         $maintenanceOffer->offer_follow_up = $request->offer_follow_up != '' ? Carbon::parse($request->offer_follow_up)->format('Y-m-d') : null;
         $maintenanceOffer->conversation_status = $request->conversation_status;
         $maintenanceOffer->maintenance_contact = $request->maintenance_contact;
         $maintenanceOffer->contact_conclusion = $request->contact_conclusion != '' ? Carbon::parse($request->contact_conclusion)->format('Y-m-d') : null;
         $maintenanceOffer->package = $request->package;;
         $maintenanceOffer->sum_per_year = $request->sum_per_year;
+        $maintenanceOffer->notes = $request->notes;
 
         $filesArray = array();
         $finalFilesArray = array();
         if ($request->hasfile('pdf_file')) {
+            $files_not_previewed = $request->files_not_previewed;
+            $filesNotPreviewedArray = explode('.pdf', $files_not_previewed);
+            array_pop($filesNotPreviewedArray);
             foreach ($request->pdf_file as $file) {
                 $originalName = $file->getClientOriginalName();
                 $originalName = basename($originalName, ".pdf");
@@ -146,10 +158,12 @@ class MaintenanceController extends Controller
                 $fileName = str_replace(' ', '_', $fileName); 
                 $fileName = str_replace('-', '_', $fileName); 
                 $fileName = $fileName.'.'.$extension;
-                
-                $file->move(public_path('uploads'), $fileName);
 
-                array_push($filesArray, $fileName); 
+                $isMatched = in_array($originalName, $filesNotPreviewedArray);
+                if(!$isMatched){
+                    $file->move(public_path('uploads'), $fileName);
+                    array_push($filesArray, $fileName);
+                } 
 
                 $filesDeleteArray = array();
                 if ($request->files_to_delete) {
@@ -219,6 +233,14 @@ class MaintenanceController extends Controller
 
     public function destroy(MaintenanceOffer $maintenanceOffer)
     {
+        if($maintenanceOffer->file_name) {
+            $finalsArray = explode("/ ", $maintenanceOffer->file_name);
+            foreach ($finalsArray as $item) {
+                if(File::exists(public_path('uploads/'.$item))){
+                    File::delete(public_path('uploads/'.$item));
+                }
+            }
+        }
         $maintenanceOffer->delete();
 
         return Redirect::back()->with('status', 'Deleted Successfully');
@@ -265,6 +287,7 @@ class MaintenanceController extends Controller
                                 ->orWhere('contact_number', 'LIKE', '%'.$keyword.'%')
                                 ->orWhere('contact_person', 'LIKE', '%'.$keyword.'%')
                                 ->orWhere('technical_place', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('technical_place_address', 'LIKE', '%'.$keyword.'%')
                                 ->orWhere('technical_postcode', 'LIKE', '%'.$keyword.'%')
                                 ->orWhere('ktb_number', 'LIKE', '%'.$keyword.'%')
                                 ->orWhere('quote_number', 'LIKE', '%'.$keyword.'%')

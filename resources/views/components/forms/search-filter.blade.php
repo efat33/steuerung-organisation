@@ -52,7 +52,7 @@
         </div>
         
         <div class="grid-item">
-            <x-inputs.label for="conversation_status" value="Resultat Nach Dem Gespräch" />
+            <x-inputs.label for="conversation_status" value="Gesprächsresultat" />
             <x-select-box.select-box name="conversation_status" title="Select Option">
                 <option value="" selected>Select Option</option>
                 @foreach (App\Enums\ConversationStatus::cases() as $item)

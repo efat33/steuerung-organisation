@@ -43,6 +43,7 @@ class TechnicalController extends Controller
             'received_from' => $request->received_from,
             'customer_number' => $request->customer_number,
             'contact_person' => $request->contact_person,
+            'customer_email_address' => $request->customer_email_address,
             'contact_number' => $request->contact_number,
             'technical_place' => $request->technical_place,
             'technical_place_address' => $request->technical_place_address,
@@ -50,10 +51,11 @@ class TechnicalController extends Controller
             'registered_by' => $request->registered_by,
             'status' => $request->status,
             'offer_type' => $request->offer_type,
+            'civil_technical_acceptance' => $request->civil_technical_acceptance,
             'ktb_number' => $request->ktb_number,
             'quote_number' => $request->quote_number,
             'offer_date' => $request->offer_date != '' ? Carbon::parse($request->offer_date)->format('Y-m-d') : null,
-            'offer_amount' => $request->offer_amount,
+            'offer_amount' => $request->offer_amount != '' ? str_replace(',','.',$request->offer_amount) : null,
             'offer_follow_up' => $request->offer_follow_up != '' ? Carbon::parse($request->offer_follow_up)->format('Y-m-d') : null,
             'conversation_status' => $request->conversation_status,
             'order_number' => $request->order_number,
@@ -66,6 +68,9 @@ class TechnicalController extends Controller
         ])->id;
 
         if ($request->hasfile('pdf_file')) {
+            $files_not_previewed = $request->files_not_previewed;
+            $filesNotPreviewedArray = explode('.pdf', $files_not_previewed);
+            array_pop($filesNotPreviewedArray);
             $filesArray = array();
             foreach ($request->pdf_file as $file) {
                 $originalName = $file->getClientOriginalName();
@@ -76,10 +81,12 @@ class TechnicalController extends Controller
                 $fileName = str_replace(' ', '_', $fileName); 
                 $fileName = str_replace('-', '_', $fileName); 
                 $fileName = $fileName.'.'.$extension;
-                
-                $file->move(public_path('uploads'), $fileName);
-
-                array_push($filesArray, $fileName);             
+    
+                $isMatched = in_array($originalName, $filesNotPreviewedArray);
+                if(!$isMatched){
+                    $file->move(public_path('uploads'), $fileName);
+                    array_push($filesArray, $fileName);
+                }                 
             }
             $filesString = implode("/ ",$filesArray);
 
@@ -119,6 +126,7 @@ class TechnicalController extends Controller
         $technicalOffer->received_from = $request->received_from;
         $technicalOffer->customer_number = $request->customer_number;
         $technicalOffer->contact_person = $request->contact_person;
+        $technicalOffer->customer_email_address = $request->customer_email_address;
         $technicalOffer->contact_number = $request->contact_number;
         $technicalOffer->technical_place = $request->technical_place;
         $technicalOffer->technical_place_address = $request->technical_place_address;
@@ -126,10 +134,11 @@ class TechnicalController extends Controller
         $technicalOffer->registered_by = $request->registered_by;
         $technicalOffer->status = $request->status;
         $technicalOffer->offer_type = $request->offer_type;
+        $technicalOffer->civil_technical_acceptance = $request->civil_technical_acceptance;
         $technicalOffer->ktb_number = $request->ktb_number;
         $technicalOffer->quote_number = $request->quote_number;
         $technicalOffer->offer_date = $request->offer_date != '' ? Carbon::parse($request->offer_date)->format('Y-m-d') : null;
-        $technicalOffer->offer_amount = $request->offer_amount;
+        $technicalOffer->offer_amount = $request->offer_amount != '' ? str_replace(',','.',$request->offer_amount) : null;
         $technicalOffer->offer_follow_up = $request->offer_follow_up != '' ? Carbon::parse($request->offer_follow_up)->format('Y-m-d') : null;
         $technicalOffer->conversation_status = $request->conversation_status;
         $technicalOffer->order_number = $request->order_number;
@@ -143,6 +152,9 @@ class TechnicalController extends Controller
         $filesArray = array();
         $finalFilesArray = array();
         if ($request->hasfile('pdf_file')) {
+            $files_not_previewed = $request->files_not_previewed;
+            $filesNotPreviewedArray = explode('.pdf', $files_not_previewed);
+            array_pop($filesNotPreviewedArray);
             foreach ($request->pdf_file as $file) {
                 $originalName = $file->getClientOriginalName();
                 $originalName = basename($originalName, ".pdf");
@@ -152,11 +164,13 @@ class TechnicalController extends Controller
                 $fileName = str_replace(' ', '_', $fileName); 
                 $fileName = str_replace('-', '_', $fileName); 
                 $fileName = $fileName.'.'.$extension;
+
+                $isMatched = in_array($originalName, $filesNotPreviewedArray);
+                if(!$isMatched){
+                    $file->move(public_path('uploads'), $fileName);
+                    array_push($filesArray, $fileName);
+                }
                 
-                $file->move(public_path('uploads'), $fileName);
-
-                array_push($filesArray, $fileName); 
-
                 $filesDeleteArray = array();
                 if ($request->files_to_delete) {
                     $filesToDelete = $request->files_to_delete;
@@ -225,6 +239,14 @@ class TechnicalController extends Controller
 
     public function destroy(TechnicalOffer $technicalOffer)
     {
+        if($technicalOffer->file_name) {
+            $finalsArray = explode("/ ", $technicalOffer->file_name);
+            foreach ($finalsArray as $item) {
+                if(File::exists(public_path('uploads/'.$item))){
+                    File::delete(public_path('uploads/'.$item));
+                }
+            }
+        }
         $technicalOffer->delete();
 
         return Redirect::back()->with('status', 'Deleted Successfully');
@@ -266,6 +288,7 @@ class TechnicalController extends Controller
                                 ->orWhere('contact_number', 'LIKE', '%'.$keyword.'%')
                                 ->orWhere('contact_person', 'LIKE', '%'.$keyword.'%')
                                 ->orWhere('technical_place', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('technical_place_address', 'LIKE', '%'.$keyword.'%')
                                 ->orWhere('technical_postcode', 'LIKE', '%'.$keyword.'%')
                                 ->orWhere('ktb_number', 'LIKE', '%'.$keyword.'%')
                                 ->orWhere('quote_number', 'LIKE', '%'.$keyword.'%')

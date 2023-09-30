@@ -50,7 +50,7 @@
 
                         <div class="row mb-3">
                             <div class="col-md-3 col-sm-12">
-                                <x-inputs.label class="fw-bold" value="Erhalten Von" />
+                                <x-inputs.label class="fw-bold" value="Erhalten von" />
                             </div>
                             <div class="col-md-9 col-sm-12">
                                 <p class="text-secondary mb-0">{{ $technicalOffer->received_from }} </p>
@@ -78,7 +78,7 @@
 
                         <div class="row mb-3">
                             <div class="col-md-3 col-sm-12">
-                                <x-inputs.label class="fw-bold" value="Erhalten Am" />
+                                <x-inputs.label class="fw-bold" value="Erhalten am" />
                             </div>
                             <div class="col-md-9 col-sm-12">
                                 <p class="text-secondary mb-0">{{ $technicalOffer->received_date != '' ? date('d-m-Y',
@@ -88,7 +88,7 @@
 
                         <div class="row mb-3">
                             <div class="col-md-3 col-sm-12">
-                                <x-inputs.label class="fw-bold" value="Technischer Platz" />
+                                <x-inputs.label class="fw-bold" value="Technischer Platz (Nummer)" />
                             </div>
                             <div class="col-md-9 col-sm-12">
                                 <p class="text-secondary mb-0">{{ $technicalOffer->technical_place }} </p>
@@ -97,7 +97,7 @@
 
                         <div class="row mb-3">
                             <div class="col-md-3 col-sm-12">
-                                <x-inputs.label class="fw-bold" value="Technische Ortsadresse" />
+                                <x-inputs.label class="fw-bold" value="Technischer Platz (Bezeichnung/Adress)" />
                             </div>
                             <div class="col-md-9 col-sm-12">
                                 <p class="text-secondary mb-0">{{ $technicalOffer->technical_place_address }} </p>
@@ -124,7 +124,16 @@
 
                         <div class="row mb-3">
                             <div class="col-md-3 col-sm-12">
-                                <x-inputs.label class="fw-bold" value="Gesprächspartner" />
+                                <x-inputs.label class="fw-bold" value="E-Mail-Adresse des Kunden" />
+                            </div>
+                            <div class="col-md-9 col-sm-12">
+                                <p class="text-secondary mb-0"><a href="mailto:{{$technicalOffer->customer_email_address}}">{{ $technicalOffer->customer_email_address }}</a></p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3 col-sm-12">
+                                <x-inputs.label class="fw-bold" value="Telefonnummer v. Ansprechpartner" />
                             </div>
                             <div class="col-md-9 col-sm-12">
                                 <p class="text-secondary mb-0"><a href="tel:{{ $technicalOffer->contact_number }}">{{ $technicalOffer->contact_number }}</a></p>
@@ -186,7 +195,7 @@
                                 <x-inputs.label class="fw-bold" value="Angebotssumme" />
                             </div>
                             <div class="col-md-9 col-sm-12">
-                                <p class="text-secondary mb-0">{{ $technicalOffer->offer_amount }} </p>
+                                <p class="text-secondary mb-0">{{ number_format($technicalOffer->offer_amount,2,",","") }} </p>
                             </div>
                         </div>
 
@@ -202,7 +211,7 @@
 
                         <div class="row mb-3">
                             <div class="col-md-3 col-sm-12">
-                                <x-inputs.label class="fw-bold" value="Resultat Nach Dem Gespräch" />
+                                <x-inputs.label class="fw-bold" value="Gesprächsresultat" />
                             </div>
                             <div class="col-md-9 col-sm-12">
                                 <p class="text-secondary mb-0">{{
@@ -237,6 +246,17 @@
                             </div>
                             <div class="col-md-9 col-sm-12">
                                 <p class="text-secondary mb-0">{{ $technicalOffer->order_amount }} </p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3 col-sm-12">
+                                <x-inputs.label class="fw-bold" value="Ziviltechnische Abnahme" />
+                            </div>
+                            <div class="col-md-9 col-sm-12">
+                            <p class="text-secondary mb-0">{{
+                                    $technicalOffer->civil_technical_acceptance != '' ?
+                                    App\Enums\CivilTechnicalAcceptance::getLabel($technicalOffer->civil_technical_acceptance) : '' }} </p>
                             </div>
                         </div>
 
@@ -280,7 +300,7 @@
 
                         <div class="row mb-3">
                             <div class="col-md-3 col-sm-12">
-                                <x-inputs.label class="fw-bold" value="PDF Datei" />
+                                <x-inputs.label class="fw-bold" value="Dateien" />
                             </div>
                             <div class="col-md-9 col-sm-12">
                                 @if($technicalOffer->file_name)  
